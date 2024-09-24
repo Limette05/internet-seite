@@ -11,7 +11,7 @@ body {
     filter: brightness(0.8);
   }
 
-  .menu_bar {
+  .menu_rectangle {
     background-color: black;
     opacity: 0.5;
     width: 100%;
