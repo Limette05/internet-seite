@@ -15,7 +15,7 @@ jobs:
     - name: Start SSH agent
       uses: webfactory/ssh-agent@v0.5.3
       with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        ssh-private-key: ${{ secrets.SSH_PUBLIC_KEY }}
 
     - name: Sync files to server
       uses: appleboy/scp-action@master
