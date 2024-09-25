@@ -21,7 +21,7 @@ jobs:
     - name: Start SSH agent
       run: |
         eval $(ssh-agent -s)
-        ssh-add ./id_rsa
+        ssh-add /root/.ssh/id_rsa
 
     - name: Add SSH public key to known_hosts
       run: |
