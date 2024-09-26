@@ -12,6 +12,8 @@ img {
 
   .container {
     width: 100%;
+    left: 0;
+    right: 0;
     padding-right: 75px;
     padding-left: 75px;
     margin-left: auto;
@@ -140,6 +142,8 @@ img {
     display: flex;
     padding-top: 75px;
     width: auto;
+    left: 0;
+    right: 0;
   }
 
   .main-content {
@@ -147,6 +151,8 @@ img {
     color: white;
     font-size: 24px;
     max-width: 100%;
+    left: 0;
+    right: 0;
     margin-right: 40px;
     object-fit: cover;
   }
