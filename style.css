@@ -2,6 +2,13 @@ body {
     font-family: "Poppins";
     margin: 0;
     text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.7);
+    background-color: rgba(5, 5, 10, 0.88);
+  }
+
+  .container {
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .header-image {
@@ -119,14 +126,6 @@ body {
     color: rgb(83, 16, 25);
     background-color: rgb(255, 190, 190);
     border-radius: 4%;
-  }
-
-  .main-background {
-    display: block;
-    top: -7px;
-    background-color: rgba(5, 5, 10, 0.88);
-    position: relative;
-    padding: 30px 48px;
   }
 
   .main-object {
