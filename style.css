@@ -129,6 +129,12 @@ body {
     padding: 30px 48px;
   }
 
+  .main-object {
+    display: flex;
+    padding-top: 75px;
+    width: auto;
+  }
+
   .main-content {
     text-align: left;
     display: block;
@@ -140,13 +146,6 @@ body {
   .maps {
     padding: 0;
     color: white;
-  }
-
-  .main-object {
-    display: flex;
-    padding-top: 75px;
-    min-width: 1800px;
-    max-width: 1800px;
   }
 
   table {
