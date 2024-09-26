@@ -6,6 +6,10 @@ body {
     background-color: rgba(5, 5, 10, 0.82);
   }
 
+img {
+  object-fit: contain;
+}
+
   .container {
     width: 85%;
     padding-right: 0;
@@ -144,7 +148,7 @@ body {
   .main-content {
     display: block;
     color: white;
-    font-size: 30px;
+    font-size: 24px;
     max-width: 100%;
     padding: 40px;
   }
