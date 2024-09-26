@@ -28,8 +28,8 @@ img {
 
 .menu_rectangle {
   top: 0;
-  left: 32px;
-  right: 32px;
+  left: 0;
+  right: 0;
   height: 190px;
   min-width: 100%;
   max-width: 100%;
@@ -250,13 +250,13 @@ td {
   .navigation_text {
     margin-inline: 2px;
     font-size: 16px;
-    display: block;
+    
   }
   .dropdown {
     margin-top: 5px;
   }
   .main-content {
-    font-size: 14px;
+    font-size: 16px;
   }
   .container {
     padding: 6%;
