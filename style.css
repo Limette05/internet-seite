@@ -2,15 +2,18 @@ body {
     font-family: "Poppins";
     margin: 0;
     margin-bottom: 0;
-    text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.7);
-    background-color: rgba(5, 5, 10, 0.88);
+    text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.65);
+    background-color: rgba(5, 5, 10, 0.82);
   }
 
   .container {
-    background-color: rgba(5, 5, 10, 0.88);
-    max-width: fit-content;
+    width: 85%;
+    padding-right: 0;
+    padding-left: 75px;
     margin-left: auto;
     margin-right: auto;
+    border-right: 3px solid black;
+    border-left: 3px solid black;
   }
 
   .header-image {
@@ -132,16 +135,17 @@ body {
 
   .main-object {
     display: flex;
-    padding-top: 75px;
+    margin-top: 75px;
+    margin-right: 75px;
+    margin-left: 0;
     width: auto;
   }
 
   .main-content {
-    text-align: left;
     display: block;
-    padding-bottom: 30px;
     color: white;
-    font-size: 31px;
+    font-size: 30px;
+    margin: 40px;
   }
 
   .maps {
@@ -162,7 +166,7 @@ body {
   .footer-background {
     display: block;
     top: -7px;
-    background-color: rgba(5, 5, 10, 0.92);
+    background-color: rgba(5, 5, 10, 0.93);
     position: relative;
     padding: 30px 48px;
   }
