@@ -14,7 +14,7 @@ img {
 .container {
   left: 0;
   right: 0;
-  padding-right: 75px;
+  padding-right: 120px;
   padding-left: 75px;
   margin-left: auto;
   margin-right: auto;
@@ -75,7 +75,6 @@ a {
   top: 266px;
   font-size: 48px;
   color: white;
-  width: 800px;
 }
 
 .crimson {
