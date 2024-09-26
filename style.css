@@ -6,6 +6,10 @@ body {
     background-color: rgba(5, 5, 10, 0.82);
   }
 
+img {
+  max-width: 100%;
+}
+
   .container {
     width: 100%;
     padding-right: 75px;
