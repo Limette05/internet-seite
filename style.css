@@ -28,8 +28,8 @@ img {
 
 .menu_rectangle {
   top: 0;
-  left: 0;
-  right: 0;
+  left: 32px;
+  right: 32px;
   height: 190px;
   min-width: 100%;
   max-width: 100%;
@@ -242,26 +242,30 @@ td {
   }
   .navigation_content {
     margin-top: 15px;
-    font-size: 13px;
+    font-size: 16px;
+    display: flex;
+
+
   }
   .navigation_text {
     margin-inline: 2px;
-    font-size: 13px;
+    font-size: 16px;
+    display: block;
   }
   .dropdown {
     margin-top: 5px;
   }
   .main-content {
-    font-size: 12px;
+    font-size: 14px;
   }
   .container {
     padding: 6%;
   }
   .footer-content {
-    font-size: 11px;
+    font-size: 12px;
   }
   .headline {
-    font-size: 19px;
+    font-size: 20px;
     left: 6%;
     top: 150px;
   }
