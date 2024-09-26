@@ -136,6 +136,7 @@ img {
   }
 
   .main-object {
+    max-width: 100%;
     display: flex;
     padding-top: 75px;
     width: auto;
