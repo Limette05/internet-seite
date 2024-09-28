@@ -182,11 +182,11 @@ a {
 }
 
 .box-table {
+  background-color: rgba(178, 34, 34, 0.4);
+  width: max-content;
   border-radius: 15px;
   padding-inline: 15px;
   padding-block: 15px;
-  max-width: max-content;
-  background-color: rgba(178, 34, 34, 0.4);
 }
 
 table {
@@ -225,21 +225,27 @@ td {
 /* Media Query für kleinere Bildschirme */
 @media (max-width: 1000px) {
   .main-object {
-    flex-wrap: wrap; /* Jede Box nimmt die volle Breite ein */
+    flex-wrap: wrap;
+    /* Jede Box nimmt die volle Breite ein */
   }
+
   .main-content {
     min-width: 100%;
   }
+
   .logo-pic {
     object-fit: fill;
   }
+
   .logo-container {
     max-width: 140px;
     max-height: 140px;
   }
+
   .menu_rectangle {
     max-height: 140px;
   }
+
   .navigation_content {
     margin-top: 15px;
     font-size: 16px;
@@ -247,38 +253,48 @@ td {
 
 
   }
+
   .navigation_text {
     margin-inline: 2px;
     font-size: 16px;
-    
+
   }
+
   .dropdown {
     margin-top: 5px;
   }
+
   .main-content {
     font-size: 16px;
   }
+
   .container {
     padding: 6%;
   }
+
   .footer-content {
     font-size: 12px;
   }
+
   .headline {
     font-size: 20px;
     left: 6%;
     top: 150px;
   }
+
   .red-box-table {
     max-width: 100%;
   }
+
   .button {
     width: 89px;
   }
+
   .dropdown-content {
     min-width: 83px;
     box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.3);
   }
+
   .dropdown-content a {
     padding: 6px 8px;
     min-width: 83px;
