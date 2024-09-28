@@ -186,6 +186,7 @@ a {
   padding-inline: 15px;
   padding-block: 15px;
   max-width: max-content;
+  background-color: rgba(178, 34, 34, 0.4);
 }
 
 table {
