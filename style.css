@@ -20,7 +20,7 @@ img {
 }
 
 .header-image {
-  height: 100vh;
+  height: 90vh;
   width: 100%;
   object-fit: cover;
   filter: brightness(0.8);
