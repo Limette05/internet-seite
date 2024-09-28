@@ -181,8 +181,7 @@ a {
   object-fit: cover;
 }
 
-.red-box-table {
-  background-color: rgba(178, 34, 34, 0.4);
+.box-table {
   border-radius: 15px;
   padding-inline: 15px;
   padding-block: 15px;
