@@ -155,9 +155,9 @@ a {
 .main-object {
   display: flex;
   object-fit: fill;
-  min-width: 100%;
-  max-width: fit-content;
-  padding-top: 40px;
+  width: auto;
+  overflow: hidden;
+  max-width: 100%;
   left: 0;
   right: 0;
 }
@@ -167,11 +167,10 @@ a {
   color: white;
   font-size: 24px;
   min-width: 50%;
-  max-width: fit-content;
   left: 0;
   right: 0;
-  margin-right: 40px;
-  object-fit: fill;
+  margin-top: 40px;
+  margin-right: 5vw;
 }
 
 .maps {
@@ -183,19 +182,20 @@ a {
 
 .box-table {
   background-color: rgba(178, 34, 34, 0.4);
-  width: max-content;
   border-radius: 15px;
   padding-inline: 15px;
   padding-block: 15px;
+  max-width: 75%;
 }
 
 table {
   border-collapse: collapse;
+  max-width: max-content;
 }
 
 th,
 td {
-  padding-right: 40px;
+  padding-right: 20px;
   text-align: left;
 }
 
