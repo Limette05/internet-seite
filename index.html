@@ -105,7 +105,7 @@
 					<table>
 						<thead>
 							Verkauf Heizung / Sanitär:
-							<p>Herr Steinmetz</p>
+							<p>Herr Jens Steinmetz</p>
 						</thead>
 						<tbody>
 							<tr>
@@ -123,7 +123,7 @@
 					<table>
 						<thead>
 							Verkauf Heizung / Sanitär:
-							<p>Herr Richter</p>
+							<p>Herr Jens Richter</p>
 						</thead>
 						<tbody>
 							<tr>
@@ -141,7 +141,7 @@
 					<table>
 						<thead>
 							Ausstellung Sanitär:
-							<p>Frau Langenfels</p>
+							<p>Frau Lena Langenfels</p>
 						</thead>
 						<tbody>
 							<tr>
@@ -159,7 +159,7 @@
 					<table>
 						<thead>
 							Ausstellung Sanitär:
-							<p>Herr Ott</p>
+							<p>Herr Stefan Ott</p>
 						</thead>
 						<tbody>
 							<tr>
@@ -177,7 +177,7 @@
 					<table>
 						<thead>
 							Werkzeug:
-							<p>Herr Müller</p>
+							<p>Herr Eckhard Müller</p>
 						</thead>
 						<tbody>
 							<tr>
@@ -195,7 +195,7 @@
 					<table>
 						<thead>
 							Stahl / Werkzeug(Vertretung):
-							<p>Herr Rymas</p>
+							<p>Herr Christian Rymas</p>
 						</thead>
 						<tbody>
 							<tr>
@@ -204,7 +204,61 @@
 							</tr>
 							<tr>
 								<td>E-Mail:</td>
-								<td><a href="mailto:crymas@rothkg.de">crymas@rothkg</a></td>
+								<td><a href="mailto:crymas@rothkg.de">crymas@rothkg.de</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="slide-content kontakt-table">
+					<table>
+						<thead>
+							Stahl:
+							<p>Herr Patrick Saatze</p>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Tel:</td>
+								<td>05341 4095-24</td>
+							</tr>
+							<tr>
+								<td>E-Mail:</td>
+								<td><a href="mailto:psaatze@rothkg.de">psaatze@rothkg.de</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="slide-content kontakt-table">
+					<table>
+						<thead>
+							Geschäftsleitung Heizung/Sanitär:
+							<p>Herr Dr. Christian Roth</p>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Tel:</td>
+								<td>05341 4095-32</td>
+							</tr>
+							<tr>
+								<td>E-Mail:</td>
+								<td><a href="mailto:croth@rothkg.de">croth@rothkg.de</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="slide-content kontakt-table">
+					<table>
+						<thead>
+							Buchhaltung:
+							<p>Frau Ilka Roth</p>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Tel:</td>
+								<td>05341 4095-23</td>
+							</tr>
+							<tr>
+								<td>E-Mail:</td>
+								<td><a href="mailto:iroth@rothkg.de">iroth@rothkg.de</a></td>
 							</tr>
 						</tbody>
 					</table>
@@ -265,10 +319,10 @@
 		isMobileView = screenWidth < 1000;
 
 		// Endlos-Schleifen Logik für SlideIndex
-		if (n > slides.length) { slideIndex = 1; }
+		if (n > slides.length -1) { slideIndex = 1; }
 		if (n < 1) { slideIndex = slides.length; }
 
-		let offset = (slideIndex - 1) * -100;
+		let offset = (slideIndex - 1) * -105;
 
 		for (let i = 0; i < slides.length; i++) {
 			slides[i].style.transform = `translateX(${offset}%)`;
