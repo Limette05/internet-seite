@@ -1,3 +1,13 @@
+::-moz-selection { /* Code for Firefox */
+  color: dark-gray;
+  background: rgba(178, 34, 34, 0.6);;
+}
+
+::selection {
+  color: dark-gray;
+  background: rgba(178, 34, 34, 0.6);;
+}
+
 body {
   font-family: "Poppins";
   margin: 0;
@@ -39,6 +49,10 @@ img {
 }
 
 a {
+	color: white;
+}
+
+a:hover {
   color: crimson;
 }
 
@@ -152,6 +166,65 @@ a {
   border-radius: 4%;
 }
 
+
+
+.slideshow-container {
+  position: relative;
+  overflow: hidden;
+	color: white;
+	font-size: 24px;
+  width: 95%;
+  display: flex;
+  align-items: center;
+}
+
+.slide-content {
+  transition: transform 0.5s ease; /* Wischanimation */
+  display: inline-block;
+	flex: 0 0 45%;
+}
+
+.arrow {
+  font-size: 15vmin;
+	color: white;
+	background-color: rgba(0,0,0,0);
+	border-color: rgba(0,0,0,0);
+  padding: 10px;
+  cursor: pointer;
+  user-select: none;
+  z-index: 10;
+}
+
+.arrow:hover {
+	color: crimson;
+}
+
+.arrow.left { left: 0; }
+.arrow.right { right: 0; }
+
+
+.kontakt-slider {
+	display: flex;
+	color: white;
+	left: 0;
+	right: 0;
+	width: 95%;
+}
+
+.kontakt-arrow {
+	font-size: 15vmin;
+}
+
+
+.kontakt-table {
+  background-color: rgba(178, 34, 34, 0.4);
+	border-radius: 15px;
+	padding-block: 15px;
+	padding-inline: 15px;
+	margin-inline: 15px;
+	min-width: 40%;
+}
+
 .main-object {
   display: flex;
   object-fit: fill;
@@ -176,8 +249,10 @@ a {
 .maps {
   padding: 0;
   color: white;
-  width: 100%;
+  width: 98%;
+  min-height: 95%;
   object-fit: cover;
+  border-radius: 15px;
 }
 
 .box-table {
@@ -224,6 +299,24 @@ td {
 
 /* Media Query für kleinere Bildschirme */
 @media (max-width: 1000px) {
+	.kontakt-table {
+		min-width: 100%;
+	}
+	
+	.slideshow-container {
+		width: 90%;
+	}
+	
+	.slide-content {
+		font-size: 15px;
+    flex: 0 0 95%; /* Eine Tabelle */
+	}
+	
+  .arrow {
+    display: none; /* Pfeile verstecken */
+  }
+
+	
   .main-object {
     flex-wrap: wrap;
     /* Jede Box nimmt die volle Breite ein */
@@ -287,7 +380,7 @@ td {
   }
 
   .button {
-    width: 89px;
+    width: 88px;
   }
 
   .dropdown-content {
