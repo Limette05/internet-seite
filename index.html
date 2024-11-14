@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -23,7 +22,7 @@
       <div class="main-content">
         <iframe class="maps"
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1223.9882398968298!2d10.33778319718282!3d52.15293745325479!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47a550b81fb4de9f%3A0xd635e8e425afbcb9!2sF.%20Walter%20Roth%20KG!5e0!3m2!1sde!2sde!4v1726845637461!5m2!1sde!2sde"
-          height="550" style="border-radius: 15px" allowfullscreen="" loading="lazy"
+          height: "560" allowfullscreen="" loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
       <div class="main-content">
@@ -43,7 +42,7 @@
               </tr>
               <tr>
                 <td>Sa</td>
-                <td>09:00 - 12:30 Uhr</td>
+                <td>09:00 - 12:15 Uhr</td>
               </tr>
               <td><br />Verkauf</td>
               <tr>
@@ -57,7 +56,7 @@
             </tbody>
           </table>
         </div>
-        <div class="main-content" style="padding-top: 20px; text-align: left">
+        <div class="main-content">
           Für größere Bestellungen sollten Sie sich bei uns vorher telefonisch
           unter 05341 4095-0 oder per
           <a href="mailto:info@rothkg.de">E-Mail</a> melden.
@@ -79,7 +78,7 @@
         <img style="border-radius: 15px" src="/img/beispiel_koje1.jpg" alt="" />
       </div>
       <div class="main-content">
-        <div class="main-content", style="max-width: 75%;">
+        <div style="max-width: 75%;">
           Unsere Ausstellung <br /><br />
 
           Wir bieten Ihnen eine breite Palette an Produkten für Ihr Badezimmer,
@@ -99,6 +98,120 @@
         </div>
       </div>
     </div>
+		<div class="main-object" style="align-items: center;">
+			<button class="arrow left" type="button" onclick="plusSlides(-1)" style="text-decoration: none;" href="">&#10094;</button>
+			<div class="slideshow-container" style="margin-top: 50px;">
+				<div class="slide-content kontakt-table">
+					<table>
+						<thead>
+							Verkauf Heizung / Sanitär:
+							<p>Herr Steinmetz</p>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Tel:</td>
+								<td>05341 4095-33</td>
+							</tr>
+							<tr>
+								<td>E-Mail:</td>
+								<td><a href="mailto:jsteinmetz@rothkg.de">jsteinmetz@rothkg.de</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="slide-content kontakt-table">
+					<table>
+						<thead>
+							Verkauf Heizung / Sanitär:
+							<p>Herr Richter</p>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Tel:</td>
+								<td>05341 4095-51</td>
+							</tr>
+							<tr>
+								<td>E-Mail:</td>
+								<td><a href="mailto:jrichter@rothkg.de">jrichter@rothkg.de</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="slide-content kontakt-table">
+					<table>
+						<thead>
+							Ausstellung Sanitär:
+							<p>Frau Langenfels</p>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Tel:</td>
+								<td>05341 4095-41</td>
+							</tr>
+							<tr>
+								<td>E-Mail:</td>
+								<td><a href="mailto:dlangenfels@rothkg.de">dlangenfels@rothkg.de</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="slide-content kontakt-table">
+					<table>
+						<thead>
+							Ausstellung Sanitär:
+							<p>Herr Ott</p>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Tel:</td>
+								<td>05341 4095-36</td>
+							</tr>
+							<tr>
+								<td>E-Mail:</td>
+								<td><a href="mailto:sott@rothkg.de">sott@rothkg.de</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="slide-content kontakt-table">
+					<table>
+						<thead>
+							Werkzeug:
+							<p>Herr Müller</p>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Tel:</td>
+								<td>05341 4095-25</td>
+							</tr>
+							<tr>
+								<td>E-Mail:</td>
+								<td><a href="mailto:emüller@rothkg.de">emüller@rothkg.de</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="slide-content kontakt-table">
+					<table>
+						<thead>
+							Stahl / Werkzeug(Vertretung):
+							<p>Herr Rymas</p>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Tel:</td>
+								<td>05341 4095-22</td>
+							</tr>
+							<tr>
+								<td>E-Mail:</td>
+								<td><a href="mailto:crymas@rothkg.de">crymas@rothkg</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<button class="arrow right" type="button" onclick="plusSlides(1)" style="text-decoration: none;" href="">&#10095;</button>
+		</div>
   </div>
 </body>
 <footer class="footer_bar"></footer>
@@ -135,6 +248,57 @@
     // Footer laden
     loadComponent("/footer.html", ".footer_bar");
   });
+		
+	let slideIndex = 1;
+	let isMobileView = window.innerWidth < 1000;
+	showSlides(slideIndex);
+
+	// Hinzufügen der Pfeiltasten-Funktionalität
+	function plusSlides(n) {
+		slideIndex += n;
+		showSlides(slideIndex);
+	}
+
+	function showSlides(n) {
+		const slides = document.getElementsByClassName("slide-content");
+		const screenWidth = window.innerWidth;
+		isMobileView = screenWidth < 1000;
+
+		// Endlos-Schleifen Logik für SlideIndex
+		if (n > slides.length) { slideIndex = 1; }
+		if (n < 1) { slideIndex = slides.length; }
+
+		let offset = (slideIndex - 1) * -100;
+
+		for (let i = 0; i < slides.length; i++) {
+			slides[i].style.transform = `translateX(${offset}%)`;
+		}
+	}
+
+	// Event Listener für automatisches Anpassen bei Fenstergrößeänderung
+	window.addEventListener("resize", () => showSlides(slideIndex));
+
+	// Touch-Wischgesten für Mobilgeräte
+	let startX;
+	document.querySelector(".slideshow-container").addEventListener("touchstart", (e) => {
+		startX = e.touches[0].clientX;
+	});
+
+	document.querySelector(".slideshow-container").addEventListener("touchend", (e) => {
+		const endX = e.changedTouches[0].clientX;
+		const threshold = 50; // Minimaler Abstand, um Wischrichtung zu bestimmen
+
+		if (startX > endX + threshold) {
+			// Wische nach links
+			plusSlides(1);
+		} else if (startX < endX - threshold) {
+			// Wische nach rechts
+			plusSlides(-1);
+		}
+	});
+
+
+
 </script>
 
 </html>
