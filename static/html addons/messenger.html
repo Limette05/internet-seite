@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Messenger</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='/style.css') }}"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="messenger-open">
+      <button class="messenger-header-btn" type="button" onclick="openForm()">
+        <i class="bx bxs-chevron-up"></i>
+      </button>
+    </div>
+    <div class="messenger-container" id="messenger">
+      <div
+        style="
+          text-align: end;
+          color: whitesmoke;
+          font-size: 48px;
+          margin-top: 10px;
+          margin-right: 10px;
+          margin-bottom: 5px;
+        "
+      >
+        Chat
+        <button
+          class="messenger-header-btn"
+          type="button"
+          onclick="closeForm()"
+        >
+          <i class="bx bxs-chevron-down"></i>
+        </button>
+      </div>
+      <div class="messenger-wrapper">
+        <div class="messenger-msg-left">
+          Guten Tag! <br />Wie können wir Ihnen helfen?
+        </div>
+        <div class="messenger-msg-right">
+          Hallo, ich habe eine Frage zu dem
+          Waschtisch.psijg0sdg09jsd0jgf0sdjf0ijsd0jfoisdjf
+        </div>
+      </div>
+
+      <div class="messenger-form">
+        <input
+          class="messenger-form-text"
+          type="text"
+          placeholder="Hallo, ich habe eine Frage..."
+        />
+        <button class="messenger-form-btn" type="button">
+          <i class="bx bxs-send"></i>
+        </button>
+      </div>
+    </div>
+  </body>
+  <script>
+    function openForm() {
+      document.getElementById("messenger").style.display = "block";
+    }
+
+    function closeForm() {
+      document.getElementById("messenger").style.display = "none";
+    }
+  </script>
+</html>
