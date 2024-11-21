@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>F. Walter Roth KG</title>
+  <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <link
+    href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+    rel="stylesheet"
+  />
+</head>
+
+<body>
+  <img class="header-image" src="/static/html addons/img/dark-mode-background.jpg" />
+  <div class="menu_bar"></div>
+  <div class="container">
+  <div class="messenger"></div>
+    <h1 class="headline">
+      Willkommen in ihrem neuen <br /><span class="crimson">Badezimmer</span>
+    </h1>
+    <div class="main-content main-headline1" style="margin-bottom: -30px;">
+      Hier finden Sie uns bei Google Maps:
+    </div>
+    <div class="main-object">
+      <div class="main-content" style="min-width: 50%;">
+        <iframe class="maps"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1223.9882398968298!2d10.33778319718282!3d52.15293745325479!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47a550b81fb4de9f%3A0xd635e8e425afbcb9!2sF.%20Walter%20Roth%20KG!5e0!3m2!1sde!2sde!4v1726845637461!5m2!1sde!2sde"
+          height: "560" allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+      <div class="main-content">
+        <div class="box-table">
+          <table>
+            <thead>
+              Unsere Öffnungszeiten:
+            </thead>
+            <tbody>
+              <td><br />Ausstellung</td>
+              <tr>
+                <td>Mo-Fr</td>
+                <td>09:00 - 17:15 Uhr</td>
+              </tr>
+              <tr>
+                <td>Sa</td>
+                <td>09:00 - 12:15 Uhr</td>
+              </tr>
+              <td><br />Verkauf</td>
+              <tr>
+                <td>Mo-Fr</td>
+                <td>07:00 - 16:30 Uhr</td>
+              </tr>
+              <tr>
+                <td>Sa</td>
+                <td>07:00 - 12:00 Uhr</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="margin-top: 40px;">
+          Für größere Bestellungen sollten Sie sich bei uns vorher telefonisch
+          unter 05341 4095-0 oder per
+          <a href="mailto:info@rothkg.de">E-Mail</a> melden.
+          <p>
+            Für eine Badberatung erhalten Sie Auskunft in unserer Ausstellung
+            unter 05341 4095-43 oder per
+            <a href="mailto:dlangenfels@rothkg.de">E-Mail</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="main-object">
+      <div class="main-content" style="width: 100%; margin-top: -15;">
+        <img style="border-radius: 15px; object-fit: fill; min-width: 100%" src="/static/html addons/img/außen_ansicht.png" alt="" />
+      </div>
+    </div>
+    <div class="main-object">
+      <div class="main-content" style="max-width: 50%;">
+        <img style="border-radius: 15px" src="/static/html addons/img/beispiel_koje1.jpg" alt="" />
+      </div>
+      <div class="main-content">
+          <h class="main-headline1">Unsere Ausstellung</h> <br /><br />
+
+          Wir bieten Ihnen eine breite Palette an Produkten für Ihr Badezimmer,
+          von hochwertigen Armaturen bis hin zu luxuriösen Badmöbeln.
+          <br /><br />
+
+          Wenn Sie auf der Suche nach Inspiration für Ihr Badezimmer sind oder
+          sich einfach nur über die neuesten Trends informieren möchten, dann
+          besuchen Sie uns doch in unserer Ausstellung. <br />Hier können Sie
+          die Produkte live erleben und sich von unserer erfahrenen Fachberatung
+          persönlich beraten lassen. <br /><br />
+
+          Besuchen Sie uns in unserer Ausstellung und erleben Sie die Welt der
+          Badezimmer. <br />Wir freuen uns darauf, Sie bei uns begrüßen zu
+          dürfen und Ihnen bei der Verwirklichung Ihrer Badezimmer-Träume zu
+          helfen! <br /><br />
+        </div>
+    </div>
+	<div class="kontakt-headline">Kontakt</div>
+	<div class="main-object" style="align-items: center;">
+		<button id="slideLeft" class="arrow left" type="button" style="text-decoration: none;" href="">&#10094;</button>
+		<div id="kontakt-wrapper" class="kontakt-wrapper kontakt_bar" style="margin-top: 50px;">
+		</div>
+		<button id="slideRight" class="arrow right" type="button" style="text-decoration: none;" href="">&#10095;</button>
+	</div>
+  </div>
+</body>
+<footer class="footer_bar"></footer>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Funktion zum Laden von HTML-Dateien in Platzhalter
+    function loadComponent(filePath, selector) {
+      fetch(filePath)
+        .then((response) => {
+          if (!response.ok) {
+            console.error("Fehler beim Laden:", filePath, response.status);
+            return;
+          }
+          return response.text();
+        })
+        .then((data) => {
+          const element = document.querySelector(selector);
+          if (element) {
+            element.innerHTML = data;
+          } else {
+            console.error(
+              "Platzhalter '" + selector + "' wurde nicht gefunden."
+            );
+          }
+        })
+        .catch((error) => {
+          console.error("Fetch-Fehler:", error);
+        });
+    }
+
+    // Navigation laden
+    loadComponent("/static/html addons/navbar.html", ".menu_bar");
+
+    // Kontakt laden
+    loadComponent("/static/html addons/kontakt.html", ".kontakt_bar");
+
+    // Chatbox laden
+    loadComponent("/static/html addons/messenger.html", ".messenger");
+
+    // Footer laden
+    loadComponent("/static/html addons/footer.html", ".footer_bar");
+  });
+
+	const buttonRight = document.getElementById("slideRight");
+  const buttonLeft = document.getElementById("slideLeft");
+
+  buttonRight.onclick = function () {
+    document.getElementById("kontakt-wrapper").scrollLeft += 450;
+  };
+  buttonLeft.onclick = function () {
+    document.getElementById("kontakt-wrapper").scrollLeft -= 450;
+  };
+
+  function openForm() {
+    document.getElementById("messenger").style.display = "block";
+  }
+
+  function closeForm() {
+    document.getElementById("messenger").style.display = "none";
+  }
+
+</script>
+
+</html>
