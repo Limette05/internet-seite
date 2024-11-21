@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>F. Walter Roth KG</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='/style.css') }}"
+    />
+  </head>
+
+  <body>
+    <img class="header-image" src="/img/dark-mode background.jpg" />
+    <div class="menu_bar"></div>
+    <div class="container">
+      <h1 class="headline">
+        Riesige Auswahl, jetzt in unserem<br /><span class="crimson"
+          >Online-Katalog</span
+        >
+      </h1>
+
+      <div class="main-object">
+        <div class="main-content">Haeffi</div>
+      </div>
+
+      <div class="kontakt-headline">Kontakt</div>
+      <div class="main-object" style="align-items: center">
+        <button
+          id="slideLeft"
+          class="arrow left"
+          type="button"
+          style="text-decoration: none"
+          href=""
+        >
+          &#10094;
+        </button>
+        <div
+          id="kontakt-wrapper"
+          class="kontakt-wrapper kontakt_bar"
+          style="margin-top: 50px"
+        ></div>
+        <button
+          id="slideRight"
+          class="arrow right"
+          type="button"
+          style="text-decoration: none"
+          href=""
+        >
+          &#10095;
+        </button>
+      </div>
+    </div>
+  </body>
+  <footer class="footer_bar"></footer>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Funktion zum Laden von HTML-Dateien in Platzhalter
+      function loadComponent(filePath, selector) {
+        fetch(filePath)
+          .then((response) => {
+            if (!response.ok) {
+              console.error("Fehler beim Laden:", filePath, response.status);
+              return;
+            }
+            return response.text();
+          })
+          .then((data) => {
+            const element = document.querySelector(selector);
+            if (element) {
+              element.innerHTML = data;
+            } else {
+              console.error(
+                "Platzhalter '" + selector + "' wurde nicht gefunden."
+              );
+            }
+          })
+          .catch((error) => {
+            console.error("Fetch-Fehler:", error);
+          });
+      }
+
+      // Navigation laden
+      loadComponent("/navbar.html", ".menu_bar");
+
+      // Kontakt laden
+      loadComponent("/kontakt.html", ".kontakt_bar");
+
+      // Footer laden
+      loadComponent("/footer.html", ".footer_bar");
+    });
+
+    const buttonRight = document.getElementById("slideRight");
+    const buttonLeft = document.getElementById("slideLeft");
+
+    buttonRight.onclick = function () {
+      document.getElementById("kontakt-wrapper").scrollLeft += 450;
+    };
+    buttonLeft.onclick = function () {
+      document.getElementById("kontakt-wrapper").scrollLeft -= 450;
+    };
+  </script>
+</html>

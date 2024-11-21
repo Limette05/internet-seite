@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>F. Walter Roth KG</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='/style.css') }}"
+    />
+  </head>
+
+  <body>
+    <div>
+      <img
+        class="header-image"
+        src="{{ url_for('static', filename='/img/dark-mode-background') }}"
+      />
+      <div class="menu_bar"></div>
+      <div class="login-wrapper">
+        <form action="">
+          <h1>Login</h1>
+          <div class="input-box">
+            <input type="email" placeholder="E-Mail" required />
+            <i class="bx bx-envelope"></i>
+          </div>
+          <div class="input-box">
+            <input type="text" placeholder="Nutzername" required />
+            <i class="bx bxs-user"></i>
+          </div>
+          <div class="input-box">
+            <input type="password" placeholder="Passwort" required />
+            <i class="bx bx-lock-alt"></i>
+          </div>
+          <div class="remember-forgot">
+            <label> <input type="checkbox" />Angemeldet bleiben</label>
+            <a href="#">Passwort vergessen</a>
+          </div>
+          <button type="submit" class="btn">Anmelden</button>
+
+          <div class="register-link">
+            <p>
+              Sie haben noch keinen Account? <a href="#">Jetzt registrieren.</a>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="container">
+      <h1 class="headline">
+        Riesige Auswahl, jetzt in unserem<br /><span class="crimson"
+          >Online-Katalog</span
+        >
+      </h1>
+    </div>
+  </body>
+  <footer class="footer_bar"></footer>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Funktion zum Laden von HTML-Dateien in Platzhalter
+      function loadComponent(filePath, selector) {
+        fetch(filePath)
+          .then((response) => {
+            if (!response.ok) {
+              console.error("Fehler beim Laden:", filePath, response.status);
+              return;
+            }
+            return response.text();
+          })
+          .then((data) => {
+            const element = document.querySelector(selector);
+            if (element) {
+              element.innerHTML = data;
+            } else {
+              console.error(
+                "Platzhalter '" + selector + "' wurde nicht gefunden."
+              );
+            }
+          })
+          .catch((error) => {
+            console.error("Fetch-Fehler:", error);
+          });
+      }
+
+      // Navigation laden
+      loadComponent(
+        "{{ url_for('static', filename='/html addons/navbar.html') }}",
+        ".menu_bar"
+      );
+
+      // Footer laden
+      loadComponent(
+        "{{ url_for('static', filename='/html addons/footer.html') }}",
+        ".footer_bar"
+      );
+    });
+  </script>
+</html>
