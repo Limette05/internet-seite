@@ -5,18 +5,90 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>F. Walter Roth KG</title>
   <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <link rel="stylesheet" href="/static/style.css" />
   <link
     href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
     rel="stylesheet"
   />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
 </head>
 
 <body>
   <img class="header-image" src="/static/html addons/img/dark-mode-background.jpg" />
   <div class="menu_bar"></div>
   <div class="container">
-  <div class="messenger"></div>
+    <div class="messenger-open">
+      <button class="messenger-header-btn" id="chatOpen" type="button" onclick="openForm()">
+        <i class='bx bx-info-circle'></i>
+      </button>
+    </div>
+    <div class="messenger-container" id="messenger">
+      <div class="messenger-head">
+        <i style="color: white; font-size: 64px; width: fit-content;" class='bx bx-info-circle'></i>
+        <h1 style="color: white ;font-size: 42px; margin: 0; width: 100%; display: flex; justify-content: center;">Information</h1>
+        <button class="messenger-header-btn" style="width: fit-content;" type="button" onclick="closeForm()">
+          <i class="bx bxs-chevron-down"></i>
+        </button>
+      </div>
+      <div class="messenger-wrapper" id="chatbox">
+        <div class="faq-container">
+          <h2>Häufig gestellte Fragen</h2>
+          <div class="faq-item">
+              <button class="faq-question">Kann ich auch privat bei euch einkaufen? <i class='bx bx-plus faq-icon'></i></button>
+              <div class="faq-answer">Egal ob Privat oder Gewerbe, wir bieten unsere Dienste und Produkte jedem an.
+                <br>Bitte beachten Sie, dass manche Produkte vom Verkauf an Private Personen untersagt ist.</div>
+          </div>
+          <div class="faq-item">
+              <button class="faq-question">Kann ich bei euch mein Badezimmer planen? <i class='bx bx-plus faq-icon'></i></button>
+              <div class="faq-answer">Besuchen Sie unsere Ausstellung für Inspiration oder kontaktieren Sie unser Team und vereinbaren Sie einen Termin für eine Badberatung.
+                <p> Tel: 05341 4095-41
+                  <br> E-Mail: <a href="mailto:ausstellung@rothkg.de">ausstellung@rothkg.de</a>
+                  <br>
+                <br>Das Angebot erhalten Sie über Ihren Installateur, und wir kümmern uns um den Rest. 
+                <br>Damit Ihr Traumbad Wirklichkeit wird bleiben wir gerne stets im Austausch.</div>
+          </div>
+          <div class="faq-item">
+              <button class="faq-question">Was sind eure Preise? <i class='bx bx-plus faq-icon'></i></button>
+              <div class="faq-answer">Vor allem für mehrere Artikel senden Sie uns bitte eine Anfrage per E-Mail an <a href="mailto:info@rothkg.de">info@rothkg.de</a> 
+                <br>
+                <br>Kommen Sie ansonsten gerne zu uns in den Verkauf und lassen Sie sich bedienen.</div>
+          </div>
+        </div>
+        <div class="cookie-container">
+          <div class="cookie-item">
+            <button class="cookie-text" name="open-cookie">Datenschutz/Cookies <i class='bx bxs-cookie' ></i></button>
+            <div class="cookie-content">
+              <h2>Wie wir Ihre Daten nutzen.</h2>
+              Hier stehen die Cookies mit Verlinkung auf unsere <a href="#Datenschutzhinweise">Datenschutzhinweise</a> und <a href="#Nutzungsbedingungen">Nutzungsbedingungen</a>.
+              <br>
+              <p>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="datenschutz"
+                    style="width: fit-content; margin-inline: auto"/>
+                    Ich akzeptiere die Datenschutzerklärung
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="nutzungsbedingungen"
+                    style="width: fit-content; margin-inline: auto"/>
+                    Ich akzeptiere die Nutzungsbedingungen
+                </label>
+              </p>
+              <button class="accept-cookies" name="accept-cookies">Bestätigen</button>
+            </div>
+          </div>
+          <div class="open-chat">
+            <button class="chat-btn" name="open-chat">Chat <i class='bx bx-conversation' ></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
     <h1 class="headline">
       Willkommen in ihrem neuen <br /><span class="crimson">Badezimmer</span>
     </h1>
@@ -108,64 +180,6 @@
   </div>
 </body>
 <footer class="footer_bar"></footer>
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    // Funktion zum Laden von HTML-Dateien in Platzhalter
-    function loadComponent(filePath, selector) {
-      fetch(filePath)
-        .then((response) => {
-          if (!response.ok) {
-            console.error("Fehler beim Laden:", filePath, response.status);
-            return;
-          }
-          return response.text();
-        })
-        .then((data) => {
-          const element = document.querySelector(selector);
-          if (element) {
-            element.innerHTML = data;
-          } else {
-            console.error(
-              "Platzhalter '" + selector + "' wurde nicht gefunden."
-            );
-          }
-        })
-        .catch((error) => {
-          console.error("Fetch-Fehler:", error);
-        });
-    }
-
-    // Navigation laden
-    loadComponent("/static/html addons/navbar.html", ".menu_bar");
-
-    // Kontakt laden
-    loadComponent("/static/html addons/kontakt.html", ".kontakt_bar");
-
-    // Chatbox laden
-    loadComponent("/static/html addons/messenger.html", ".messenger");
-
-    // Footer laden
-    loadComponent("/static/html addons/footer.html", ".footer_bar");
-  });
-
-	const buttonRight = document.getElementById("slideRight");
-  const buttonLeft = document.getElementById("slideLeft");
-
-  buttonRight.onclick = function () {
-    document.getElementById("kontakt-wrapper").scrollLeft += 450;
-  };
-  buttonLeft.onclick = function () {
-    document.getElementById("kontakt-wrapper").scrollLeft -= 450;
-  };
-
-  function openForm() {
-    document.getElementById("messenger").style.display = "block";
-  }
-
-  function closeForm() {
-    document.getElementById("messenger").style.display = "none";
-  }
-
-</script>
+<script src="/static/html addons/index.js"></script>
 
 </html>

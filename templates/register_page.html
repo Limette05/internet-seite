@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>F. Walter Roth KG</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='/style.css') }}"
+    />
+  </head>
+
+  <body>
+    <div class="menu_bar"></div>
+    <div style="height: 100vh; display: grid; place-content: center">
+      <div class="login-wrapper">
+        <form method="POST" class="login-form" action="">
+          <h1 style="width: fit-content; margin-inline: auto" *>
+            Registrieren
+          </h1>
+          <div class="input-box">
+            {{ form.hidden_tag() }} {{ form.email(class="login-form-input") }}
+            <i class="login-icon bx bx-envelope"></i>
+          </div>
+          <div class="input-box">
+            {{ form.username(class="login-form-input") }}
+            <i class="login-icon bx bxs-user"></i>
+          </div>
+          <div class="input-box">
+            {{ form.password(class="login-form-input") }}
+            <i class="login-icon bx bx-lock-alt"></i>
+          </div>
+          <div class="remember-forgot">
+            <div style="width: fit-content; margin-inline: auto">
+              Passwort <a href="forgot_password">vergessen</a>?
+            </div>
+            <label>
+              <input
+                type="checkbox"
+                style="margin-top: 8px; width: fit-content; margin-inline: auto"
+              />Angemeldet bleiben</label
+            >
+          </div>
+          <div style="width: fit-content; margin-inline: auto">
+            {{ form.submit(class="login-form-submit") }}
+          </div>
+          <div>
+            <p>
+              Sie haben bereits einen Account? <br />
+              <a href="login">Jetzt Anmelden</a>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+  <footer class="footer_bar"></footer>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Funktion zum Laden von HTML-Dateien in Platzhalter
+      function loadComponent(filePath, selector) {
+        fetch(filePath)
+          .then((response) => {
+            if (!response.ok) {
+              console.error("Fehler beim Laden:", filePath, response.status);
+              return;
+            }
+            return response.text();
+          })
+          .then((data) => {
+            const element = document.querySelector(selector);
+            if (element) {
+              element.innerHTML = data;
+            } else {
+              console.error(
+                "Platzhalter '" + selector + "' wurde nicht gefunden."
+              );
+            }
+          })
+          .catch((error) => {
+            console.error("Fetch-Fehler:", error);
+          });
+      }
+
+      // Navigation laden
+      loadComponent("/static/html addons/navbar.html", ".menu_bar");
+
+      // Footer laden
+      loadComponent("/static/html addons/footer.html", ".footer_bar");
+    });
+  </script>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>F. Walter Roth KG</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+
+  <body>
+    <div class="menu_bar"></div>
+    Admin-Dashboard
+    <a href="team_chat.html">Chats</a>
+  </body>
+  <footer class="footer_bar"></footer>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Funktion zum Laden von HTML-Dateien in Platzhalter
+      function loadComponent(filePath, selector) {
+        fetch(filePath)
+          .then((response) => {
+            if (!response.ok) {
+              console.error("Fehler beim Laden:", filePath, response.status);
+              return;
+            }
+            return response.text();
+          })
+          .then((data) => {
+            const element = document.querySelector(selector);
+            if (element) {
+              element.innerHTML = data;
+            } else {
+              console.error(
+                "Platzhalter '" + selector + "' wurde nicht gefunden."
+              );
+            }
+          })
+          .catch((error) => {
+            console.error("Fetch-Fehler:", error);
+          });
+      }
+
+      // Navigation laden
+      loadComponent("/static/html addons/navbar.html", ".menu_bar");
+
+      // Footer laden
+      loadComponent("/static/html addons/footer.html", ".footer_bar");
+    });
+  </script>
+</html>

@@ -1,0 +1,37 @@
+<div class="team-chats-grid">
+  <!-- Dynamisch mit Daten gefüllt -->
+</div>
+
+<script>
+  async function showTeamChats() {
+    const response = await fetch("/load_team_chats");
+    const data = await response.json();
+    const grid = document.getElementById("teamChatsGrid");
+    grid.innerHTML = "";
+    data.chats.forEach((chat) => {
+      const card = document.createElement("div");
+      card.className = "chat-card";
+      card.innerHTML = `
+            <h3>${chat.title}</h3>
+            <p>Besitzer: ${chat.owner}</p>
+            <p>Erstelldatum: ${chat.created_at}</p>
+            <p>Status: ${chat.state}</p>
+            <button onclick="viewChat(${chat.id})">Anzeigen</button>
+        `;
+      grid.appendChild(card);
+    });
+  }
+
+  async function viewChat(chatId) {
+    const response = await fetch(`/view_chat?chat_id=${chatId}`);
+    const data = await response.json();
+    document.getElementById("teamContent").innerHTML = `
+        <h3>${data.title}</h3>
+        <p>Besitzer: ${data.owner}</p>
+        <p>Letzter Bearbeiter: ${data.last_editor || "Keiner"}</p>
+        <p>Status: ${data.state}</p>
+        <!-- Chat-Funktionen hier -->
+        <button onclick="showTeamChats()">Zurück</button>
+    `;
+  }
+</script>
