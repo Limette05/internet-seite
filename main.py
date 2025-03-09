@@ -247,4 +247,4 @@ def forgot_password():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host="45.93.249.124")
