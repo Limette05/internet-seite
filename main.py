@@ -18,7 +18,7 @@ class Base(DeclarativeBase):
 db = SQLAlchemy(model_class=Base)
 
 
-app = Flask(__name__, static_folder="/static/")
+app = Flask(__name__, static_folder="/internet-seite/static")
 socketio = SocketIO(app)
 bcrypt = Bcrypt(app)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.db"
