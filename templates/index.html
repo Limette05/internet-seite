@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>F. Walter Roth KG</title>
   <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='/style.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
   <link
     href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
     rel="stylesheet"
@@ -14,7 +14,7 @@
 </head>
 
 <body>
-  <img class="header-image" src="/static/html addons/img/dark-mode-background.jpg" />
+  <img class="header-image" src="{{ url_for('static', filename='html addons/img/dark-mode-background.jpg') }}" />
   <div class="menu_bar"></div>
   <div class="container">
     <div class="messenger-open">
@@ -144,12 +144,12 @@
     </div>
     <div class="main-object">
       <div class="main-content" style="width: 100%; margin-top: -15;">
-        <img style="border-radius: 15px; object-fit: fill; min-width: 100%" src="/static/html addons/img/außen_ansicht.png" alt="" />
+        <img style="border-radius: 15px; object-fit: fill; min-width: 100%" src="{{ url_for('static', filename='html addons/img/außen_ansicht.png') }}" alt="" />
       </div>
     </div>
     <div class="main-object">
       <div class="main-content" style="max-width: 50%;">
-        <img style="border-radius: 15px" src="/static/html addons/img/beispiel_koje1.jpg" alt="" />
+        <img style="border-radius: 15px" src="{{ url_for('static', filename='html addons/img/beispiel_koje1.jpg') }}" alt="" />
       </div>
       <div class="main-content">
           <h class="main-headline1">Unsere Ausstellung</h> <br /><br />
@@ -180,6 +180,6 @@
   </div>
 </body>
 <footer class="footer_bar"></footer>
-<script src="/static/html addons/index.js"></script>
+<script src="{{ url_for('static', filename='html addons/index.js') }}"></script>
 
 </html>
