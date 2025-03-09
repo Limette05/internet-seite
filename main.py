@@ -231,7 +231,7 @@ def register():
 def sortiment():
     return render_template("sortiment.html")
 
-@app.route("/über-uns")
+@app.route("/about-us")
 def about_us():
     return render_template("about_us.html")
 
