@@ -1,19 +1,10 @@
 <div class="profil-container">
-  <div style="font-size: 48px">Dein Profil</div>
+  <div style="font-size: 42px">Dein Profil</div>
   <div class="user-info">
     <div class="label-box">
       <p>E-Mail:</p>
       <p>Benutzername:</p>
       <p>Passwort:</p>
-      <p>
-        <button
-          class="logout-btn"
-          name="logout"
-          onclick="location.href = '/logout'"
-        >
-          Abmelden
-        </button>
-      </p>
     </div>
     <div class="content-box">
       <p>{{ email }}</p>
@@ -21,4 +12,8 @@
       <p>Passwort ändern</p>
     </div>
   </div>
+  <button class="logout-btn" name="logout" onclick="location.href = '/logout'">
+    Abmelden
+  </button>
+  <p>weiteres kommt noch</p>
 </div>
