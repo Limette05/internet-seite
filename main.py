@@ -52,10 +52,9 @@ class Message(db.Model):
 
 class Conversation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    owner = db.Column(db.String, nullable=False)
-    title = db.Column(db.String, nullable=False, default="Neue Konversation")
-    team_title = db.Column(db.String, nullable=False, default="Team-Konversation")
-    last_editor = db.Column(db.String, nullable=True)  # Letzter Bearbeiter
+    owner = db.Column(db.String, nullable=False) # ist die owner.id
+    title = db.Column(db.String, nullable=False) # wird später festgelegt als owner.username
+    last_editor = db.Column(db.String, nullable=False)  # Letzter Bearbeiter, wird erstmals als "leer" eingetragen
     state = db.Column(db.Integer, nullable=False, default=0)  # 0=Offen, 1=In Bearbeitung, 2=Fertig
     created_at = db.Column(db.DateTime(), default=datetime.now)
 
@@ -96,101 +95,110 @@ with app.app_context():
 
 @app.route("/", methods=['GET','POST'])
 def index():
-
+    login_state = False
+    if current_user.is_authenticated:
+        login_state = True
     # todo
     # make request for messages when clicking on select conversation
     # when opening chat give plus-chat and select existing-chat
-    return render_template("index.html")
+    return render_template("index.html", login_state=login_state)
 
-@app.route("/get_conversations", methods=["GET"])
-def get_conversations():
-    if current_user.is_authenticated:
-        conversations = Conversation.query.filter_by(owner=current_user.id).all()
-        return jsonify([{
-            "title": conversation.title,
-            "id": conversation.id
-        } for conversation in conversations])
-    else:
-        """Load private conversation. existing?"""
-        conversation = Conversation.query.filter_by(owner=request.remote_addr)
-        if conversation:
-            return jsonify({"title": conversation.title,
-                        "id": conversation.id})
+@socketio.on("connect")
+def connect(auth):
+    room = session.get("room")
+    name = session.get("name")
+    if not room or not name:
+        return
+    join_room(room)
 
-@app.route("/send_message", methods=["POST"])
-def send_message():
-    if request.method == "POST":
-        name = "Gast"
-        conversation = request.remote_addr
-        if current_user.is_authenticated:
-            name = current_user.username
-            conversation = current_user.id
-        new_message = Message(
+@socketio.on("disconnect")
+def disconnect():
+    room = session.get("room")
+    name = session.get("name")
+    leave_room(room)
+
+@socketio.on("message")
+def message(data):
+    room = session.get("room")
+    if not room:
+        return
+    new_message = Message(
             user_ip = request.remote_addr,
-            username = name,
-            content = request.json['content'],
-            conversation = conversation
+            username = current_user.username,
+            content = data["data"],
+            conversation = room
         )
-        db.session.add(new_message)
+    db.session.add(new_message)
+    db.session.commit()
+    current_time = datetime.now()
+    content = {
+        "name": session.get("name"),
+        "message": data["data"],
+        "created_at": current_time.strftime('%d. %b | %H:%M Uhr')
+    }
+    send(content, to=room)
+
+
+@app.route("/chat-redirect", methods=["POST","GET"])
+def chat_redirect():
+    # check if conversation exists and give parameters
+    # if not create conversation
+    conversations = []
+    user = User.query.filter_by(id=current_user.id).first()
+    room = Conversation.query.filter_by(owner=user.id).first()
+    if room:
+        session["room"] = room.id
+
+    session["name"] = user.username
+    team_status = user.team_status
+    if team_status > 0:
+        raw_conversations = Conversation.query.all()
+        for conv in raw_conversations:
+            conversations.append(conv)
+
+        get_conv_id = request.args.get('conv_id')
+        if get_conv_id:
+            room = Conversation.query.filter_by(id=get_conv_id).first()
+            session["room"] = room.id
+    if not room and team_status == 0:
+        owner =  User.query.filter_by(id=current_user.id).first()
+        new_conversation = Conversation(
+            owner = owner.id,
+            title = owner.username,
+            last_editor = ""
+        )
+        db.session.add(new_conversation)
         db.session.commit()
-    messages = Message.query.filter_by(conversation=conversation).order_by(Message.created_at).all()
-    return jsonify([{
-        'username': msg.username,
-        'content': msg.content,
-        'created_at': msg.created_at.strftime('%d. %b | %H:%M Uhr')
-    } for msg in messages])
+        room = Conversation.query.filter_by(owner=owner.id).first()
+        session["room"] = room.id
+    dict_messages = []
+    if room:
+        messages = Message.query.filter_by(conversation=room.id).all()
+        for msg in messages:
+            dict_messages.append({
+                'username': msg.username,
+                'content': msg.content,
+                'created_at': msg.created_at.strftime('%d. %b | %H:%M Uhr')
+                })
+
+    return render_template("chat-redirect.html", username=user.username, messages=dict_messages,
+                            team_status=team_status, conversations=conversations)
 
 
 @app.route("/dashboard", methods=["GET","POST"])
 def dashboard():
     if not current_user.is_authenticated:
         return redirect("/login")
-    name = current_user.username
-    user = User.query.filter_by(username=name).all()
-    team_status = user[0].team_status
-    if team_status == 1:
-        return redirect("/team_dashboard")
-    elif team_status == 2:
-        return redirect("/admin_dashboard")
-    return render_template("dashboard.html")
+    user = User.query.filter_by(id=current_user.id).first()
+    team_status = user.team_status
+    return render_template("dashboard.html", team_status=team_status)
 
-@app.route("/team_dashboard", methods=['GET','POST'])
-def team_dashboard():
-    # link to team_chats
-    if not current_user.is_authenticated:
-        return redirect("/login")
-    name = current_user.username
-    user = User.query.filter_by(username=name).all()
-    team_status = user[0].team_status
-    if not team_status >= 1:
-        return("Zugriff verweigert!")
-    return render_template("team_dashboard.html")
-
-@app.route("/admin_dashboard", methods=['GET','POST'])
-def admin_dashboard():
-    # link to team_chats
-    if not current_user.is_authenticated:
-        return redirect("/login")
-    name = current_user.username
-    user = User.query.filter_by(username=name).all()
-    team_status = user[0].team_status
-    if not team_status == 2:
-        return("Zugriff verweigert!")
-    return render_template("admin_dashboard.html")
-
-@app.route("/team_chats", methods=['GET','POST'])
-def team_chats():
-    # display all conversations, filter_by(state)
-    # show editable conversation name !Conversation_token is permanent until deletion
-    # show username (guest = Gast#IP_ADDRESS)
-    # show created_at
-    # show state with buttons to manage state
-    return render_template("team_chats.html")
-
-@app.route("/team_chat", methods=['GET','POST'])
+@app.route("/profile", methods=['GET','POST'])
 def team_chat():
     # full size chat with link back to chats
-    return render_template("team_chat.html")
+    email = current_user.email
+    username = current_user.username
+    return render_template("profile.html", email=email, username=username)
 
 @app.route("/login", methods=["GET","POST"])
 def login():
@@ -212,8 +220,8 @@ def register():
     form = RegisterForm()
     username = form.username.data
     team_status = 0
-    team_list = ["Michael Fix", "Lena Langenfels"]
-    admin_list = ["Dr. Christian Roth"]
+    team_list = ["Lena Langenfels", "Jens Steinmetz", "Christian Rymas", "Andrea Roth Wiegand", "Jens Richter"]
+    admin_list = ["Christian Roth", "Michael Fix", "Ilka Roth", "Kerstin Roth"]
     if username in team_list:
         team_status = 1
     elif username in admin_list:

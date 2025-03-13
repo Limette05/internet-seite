@@ -83,7 +83,13 @@
             </div>
           </div>
           <div class="open-chat">
-            <button class="chat-btn" name="open-chat">Chat <i class='bx bx-conversation' ></i></button>
+            {% block content %}
+              {% if login_state %}
+                <button class="chat-btn" name="open-chat" onclick="location.href = '/chat-redirect'">Chat <i class='bx bx-conversation' ></i></button>
+              {% else %}
+                <button class="chat-btn" name="open-chat" onclick="location.href = '/login'">Chat <i class='bx bx-conversation' ></i></button>
+              {% endif %}
+            {% endblock content %}
           </div>
         </div>
       </div>

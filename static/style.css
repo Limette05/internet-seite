@@ -322,7 +322,7 @@ a:hover {
   right: 25px;
   height: 700px;
   width: 550px;
-  background-color: rgba(5, 5, 10);
+  background-color: rgba(15, 15, 20);
   box-shadow: inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.075),
     /* shadow ring 👇 */ 0 0 0 1px hsla(0, 0%, 0%, 0.05),
     /* multiple soft shadows 👇 */ 0 0.3px 0.4px hsla(0, 0%, 0%, 0.02),
@@ -366,6 +366,19 @@ a:hover {
   color: crimson;
 }
 
+.chatbox-wrapper {
+  float: left;
+  margin-right: auto;
+  height: 700px;
+  border-radius: 10px;
+  padding: 10px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 2px solid crimson;
+  color: whitesmoke;
+}
+
 .messenger-wrapper {
   border-radius: 10px;
   overflow-y: scroll;
@@ -379,7 +392,7 @@ a:hover {
 }
 
 .messenger-msg-right {
-  margin-top: 30px;
+  margin-block: 10px;
   padding-inline: 16px;
   padding-block: 6px;
   border-radius: 12px;
@@ -393,14 +406,15 @@ a:hover {
   height: fit-content;
   max-width: 80%;
   margin-left: auto;
+  word-wrap: break-word;
 }
 
 .messenger-msg-left {
-  margin-top: 30px;
+  margin-block: 10px;
   padding-inline: 16px;
   padding-block: 6px;
   border-radius: 12px;
-  background-color: rgb(98, 26, 26);
+  background-color: rgb(98, 50, 50);
   box-shadow: inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.1),
     /* shadow ring 👇 */ 0 0 0 1px hsla(0, 0%, 0%, 0.05),
     /* multiple soft shadows 👇 */ 0 0.3px 0.4px hsla(0, 0%, 0%, 0.02),
@@ -411,19 +425,19 @@ a:hover {
   height: fit-content;
   max-width: 80%;
   margin-right: auto;
+  word-wrap: break-word;
 }
 
 .messenger-form {
   border-radius: 12px;
   background-color: transparent;
   font-size: 16px;
-  width: 530px;
+  width: 100%;
   margin-inline: auto;
-  margin-inline: 10px;
   bottom: 10px;
   display: flex;
+  flex: e;
   gap: 10px;
-  position: absolute;
 }
 
 .messenger-form-text {
@@ -434,7 +448,7 @@ a:hover {
   border: none;
   padding-inline: 12px;
   padding-block: 12px;
-  border-radius: 12px;
+  border-radius: 10px;
   background-color: rgb(98, 26, 26);
   box-shadow: inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.1),
     /* shadow ring 👇 */ 0 0 0 1px hsla(0, 0%, 0%, 0.05),
@@ -463,6 +477,12 @@ a:hover {
   outline: none;
 }
 
+.messages {
+  width: 100%;
+  height: calc(100% - 44px);
+  overflow-y: scroll;
+}
+
 .faq-container {
   width: 100%;
   max-width: 600px;
@@ -473,7 +493,7 @@ a:hover {
   border-radius: 8px;
   margin-bottom: 10px;
   overflow: hidden;
-  background-color: rgb(20, 20, 20);
+  background-color: rgb(28, 31, 35);
   transition: background-color 0.6s ease-in-out;
 }
 .faq-item.open {
@@ -532,7 +552,7 @@ a:hover {
   border-radius: 8px;
   margin-bottom: 10px;
   overflow: hidden;
-  background-color: rgb(20, 20, 20);
+  background-color: rgb(28, 31, 35);
   transition: background-color 0.6s ease-in-out;
 }
 .cookie-content {
@@ -574,7 +594,7 @@ a:hover {
   border: 1px solid red;
   border-radius: 8px;
   margin-bottom: 10px;
-  background-color: rgb(20, 20, 20);
+  background-color: rgb(28, 31, 35);
   text-align: left;
   font-size: 18px;
   cursor: pointer;
@@ -589,7 +609,7 @@ a:hover {
   border: 1px solid crimson;
   border-radius: 8px;
   margin-bottom: 10px;
-  background-color: rgb(20, 20, 20);
+  background-color: rgb(28, 31, 35);
   text-align: center;
   font-size: 18px;
   cursor: pointer;
@@ -678,8 +698,9 @@ td {
 
 .page-container {
   background-color: rgba(10, 14, 18, 0.8);
-  max-width: 75vw;
-  margin-top: 30vh;
+  max-width: 85vw;
+  margin-top: 33vh;
+  min-height: 100vh;
   margin-inline: auto;
   padding: 25px 25px;
   display: flex;
@@ -688,58 +709,97 @@ td {
 }
 
 .page-nav {
-  background-color: rgba(30, 20, 20, 0.5);
-  font-size: 28px;
-  display: grid;
-  grid-template-columns: repeat(1, fit-content);
-  max-width: fit-content;
-  position: relative;
-  left: 0;
-  height: 600px;
-  border: 1px solid crimson;
+  font-size: 22px;
+  display: flex;
+  gap: 10px;
+  flex-flow: column;
+  border-radius: 10px;
 }
 
-.page-nav a {
+.page-nav button {
+  padding: 10px 20px;
+  border-radius: 10px;
   text-align: center;
-  align-content: center;
-  text-decoration: none;
   border: none;
-  font-size: 28px;
-  background-color: rgb(30, 20, 20);
+  font-size: 22px;
   color: whitesmoke;
-}
-
-.page-nav a:hover {
-  color: crimson;
   background-color: rgb(55, 35, 35);
 }
 
-.dashboard-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px; /* Abstand zwischen den Kacheln */
-  padding: 20px;
+.page-nav button:hover {
+  color: crimson;
+  background-color: rgb(80, 50, 50);
 }
 
-.dashboard-tile {
-  background-color: rgb(30, 20, 20);
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.dashboard-tile:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-.team-dashboard-container {
+.conversation-name {
   display: flex;
+  align-items: center;
+  font-size: 28px;
+  background-color: rgb(55, 35, 35);
+  border-radius: 10px;
+}
+
+.conversation-name button {
+  flex-grow: 1;
+  font-size: 22px;
+  padding: 10px 10px;
+  text-align: left;
+  align-content: center;
+  text-decoration: none;
+  border: none;
+  background-color: rgb(55, 35, 35);
+  color: whitesmoke;
+  border-radius: 10px;
+}
+
+.conversation-name:hover {
+  background-color: rgb(80, 50, 50);
+}
+.conversation-name button:hover {
+  background-color: rgb(80, 50, 50);
+}
+
+.dashboard-display {
+  display: flex;
+  flex-grow: 1;
+  gap: 25px;
+}
+
+.profil-container {
+  color: white;
+  display: block;
+  width: 100%;
+}
+
+.user-info {
+  font-size: 22px;
+  display: flex;
+  width: 100%;
+  gap: 25px;
+}
+
+.label-box {
+  float: left;
+  padding: 10px 10px;
+  max-width: 50%;
+}
+.content-box {
+  float: right;
+  padding: 10px 10px;
+  max-width: 50%;
+}
+
+.logout-btn {
+  padding: 10px 10px;
+  font-size: 22px;
+  border: 1px solid crimson;
+  color: whitesmoke;
+  background-color: rgb(20, 20, 20);
+  border-radius: 10px;
+}
+.logout-btn:hover {
+  color: crimson;
+  background-color: rgb(30, 30, 30);
 }
 
 .team-sidebar {
@@ -753,7 +813,7 @@ td {
   padding: 0;
 }
 
-.team-sidebar li {
+.team-sidebar button {
   margin: 1em 0;
 }
 
@@ -783,6 +843,23 @@ td {
 
 /* Media Query für kleinere Bildschirme */
 @media (max-width: 1000px) {
+  .chatbox-wrapper {
+    width: 100%;
+  }
+  .page-nav {
+    flex-flow: row;
+    min-width: 100%;
+  }
+  .page-nav button {
+    flex-grow: 1;
+  }
+  .page-container {
+    max-width: 100vw;
+    flex-wrap: wrap;
+  }
+  .dashboard-display {
+    flex-wrap: wrap;
+  }
   .messenger-container {
     display: none;
     position: fixed;
@@ -790,6 +867,10 @@ td {
     bottom: 0;
     height: 100vh;
     width: 100vw;
+  }
+
+  .messenger-container.open {
+    display: block;
   }
 
   .messenger-header-btn:hover {
@@ -807,28 +888,6 @@ td {
     max-height: calc(100vh - 169px);
     width: 100vw;
     max-width: calc(100vw - 44px);
-  }
-
-  .messenger-msg-right {
-    margin-top: 15px;
-    font-size: 14px;
-  }
-
-  .messenger-msg-left {
-    margin-top: 15px;
-    font-size: 14px;
-  }
-
-  .messenger-form {
-    width: 100vw;
-    max-width: calc(90vw -174px);
-    gap: 6px;
-  }
-
-  .messenger-form-text {
-    font-size: 14px;
-    width: 100%;
-    max-width: calc(100vw - 96px);
   }
 
   .card {

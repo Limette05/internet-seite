@@ -68,3 +68,63 @@ function loadSection(section) {
       document.getElementById("dashboard-display").innerHTML = html;
     });
 }
+
+window.onload = function () {
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get("section") === "team_chats") {
+    loadSection("team_chats");
+  }
+};
+
+document
+  .getElementById("chatForm")
+  .addEventListener("submit", async function (event) {
+    event.preventDefault(); // Verhindert das Neuladen der Seite
+
+    const messageInput = document.getElementById("message");
+    const message = messageInput.value;
+
+    if (message.trim() === "") {
+      return; // Leere Nachrichten nicht senden
+    }
+
+    // Sende die Nachricht asynchron an den Server
+    const response = await fetch("/send_message", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ content: message }),
+    });
+
+    const messages = await response.json();
+
+    // Aktualisiere die Chatbox
+    updateChatbox(messages);
+
+    // Leert das Eingabefeld
+    messageInput.value = "";
+  });
+
+function updateChatbox(messages) {
+  const chatbox = document.getElementById("chatbox");
+  chatbox.innerHTML = ""; // Leert die Chatbox (optional)
+
+  // Neue Nachrichten hinzufügen
+  messages.forEach((msg) => {
+    const messageElement = document.createElement("div");
+    messageElement.className =
+      msg.username === "{{ username }}"
+        ? "messenger-msg-right"
+        : "messenger-msg-left";
+    messageElement.innerHTML = `
+            <div style="font-size: 16px;"><b>${msg.username}</b></div>
+            <div style="font-size: 14px;">${msg.content}</div>
+            <span style="font-size: 12px; color: rgba(245, 245, 245, 0.75);">${msg.created_at}</span>
+        `;
+    chatbox.appendChild(messageElement);
+  });
+
+  // Scrollt die Chatbox zum neuesten Eintrag
+  chatbox.scrollTop = chatbox.scrollHeight;
+}

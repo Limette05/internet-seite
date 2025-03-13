@@ -3,34 +3,36 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dein Profil</title>
+    <title>F. Walter Roth KG</title>
     <link
       href="https://fonts.googleapis.com/css?family=Poppins"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/static/style.css" />
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="/static/style.css" />
   </head>
-  <body>
-    <div class="dashboard-container">
-      <div class="dashboard-tile">Kachel 1</div>
-      <div class="dashboard-tile">Kachel 2</div>
-      <div class="dashboard-tile">Kachel 3</div>
-      <div class="dashboard-tile">Kachel 4</div>
-      <div class="dashboard-tile">Kachel 5</div>
-      <div class="dashboard-tile">Kachel 6</div>
-      <div class="dashboard-tile">Kachel 7</div>
-      <div class="dashboard-tile">Kachel 8</div>
-    </div>
 
-    <h1>Dashboard</h1>
-    <br />
-    <a href="/">Home</a>
-    <br />
-    <a href="logout">Logout</a>
+  <body>
+    <div class="menu_bar"></div>
+    <div class="page-container">
+      <div class="page-nav">
+        <button onclick="loadSection('profile')">Profil</button>
+        <button onclick="location.href = '/chat-redirect'">Chats</button>
+        {% if team_status > 0 %}
+        <button onclick="loadSection('statistics')">Statistiken</button>
+        <button onclick="loadSection('enquiries')">Anfragen</button>
+        <button onclick="loadSection('werbung')">Werbung/Angebote</button>
+        {% endif %}
+      </div>
+      <div class="dashboard-display" id="dashboard-display">
+        <!-- Der Bereich wird dynamisch geladen -->
+        <div style="font-size: 48px">Dashboard</div>
+      </div>
+    </div>
   </body>
+  <footer class="footer_bar"></footer>
 </html>
-<script src="/static/html addons/script.js"></script>
+<script src="/static/html addons/dashboard.js"></script>
