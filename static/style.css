@@ -846,6 +846,9 @@ td {
   .chatbox-wrapper {
     width: 100%;
   }
+  .dashboard-display {
+    flex-flow: column;
+  }
   .page-nav {
     flex-flow: row;
     flex-grow: 1;
