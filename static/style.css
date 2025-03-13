@@ -848,6 +848,7 @@ td {
   }
   .dashboard-display {
     flex-flow: column;
+    flex-wrap: wrap;
   }
   .page-nav {
     flex-flow: row;
