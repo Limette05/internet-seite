@@ -866,12 +866,13 @@ td {
     position: fixed;
     right: 0;
     bottom: 0;
-    height: 100vh;
+    height: 90vh;
     width: 100vw;
   }
-
   .messenger-container.open {
     display: block;
+    transform: translateY(-675px); /* Verschiebung nach oben */
+    bottom: -675px;
   }
 
   .messenger-header-btn:hover {
@@ -885,8 +886,7 @@ td {
   .messenger-wrapper {
     border-radius: 12px;
     overflow-y: scroll;
-    height: 100vh;
-    max-height: calc(100vh - 169px);
+    height: calc(90vh - 119px);
     width: 100vw;
     max-width: calc(100vw - 44px);
   }
