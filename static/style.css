@@ -848,7 +848,8 @@ td {
   }
   .page-nav {
     flex-flow: row;
-    min-width: 100%;
+    flex-grow: 1;
+    flex-wrap: wrap;
   }
   .page-nav button {
     flex-grow: 1;
