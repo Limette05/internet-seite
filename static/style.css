@@ -845,8 +845,6 @@ td {
   }
   .chatbox-wrapper {
     max-width: 100%;
-    margin-right: 25px;
-
   }
   .dashboard-display {
     flex-flow: column;
