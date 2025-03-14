@@ -844,11 +844,12 @@ td {
     font-size: 18px;
   }
   .chatbox-wrapper {
-    width: 100%;
+    max-width: 100%;
+    margin-right: 25px;
+
   }
   .dashboard-display {
     flex-flow: column;
-    flex-wrap: wrap;
   }
   .page-nav {
     flex-flow: row;
