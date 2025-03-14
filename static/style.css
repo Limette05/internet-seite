@@ -844,7 +844,7 @@ td {
     font-size: 18px;
   }
   .chatbox-wrapper {
-    max-width: 100%;
+    width: calc(100% - 25px);
   }
   .dashboard-display {
     flex-flow: column;
