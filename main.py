@@ -56,6 +56,7 @@ class Conversation(db.Model):
     title = db.Column(db.String, nullable=False) # wird später festgelegt als owner.username
     last_editor = db.Column(db.String, nullable=False)  # Letzter Bearbeiter, wird erstmals als "leer" eingetragen
     state = db.Column(db.Integer, nullable=False, default=0)  # 0=Offen, 1=In Bearbeitung, 2=Fertig
+    new_msg = db.Column(db.Integer, nullable=False, default=0)
     created_at = db.Column(db.DateTime(), default=datetime.now)
 
 class User(db.Model, UserMixin):
@@ -117,6 +118,16 @@ def disconnect():
     name = session.get("name")
     leave_room(room)
 
+@socketio.on("change_conv_state")
+def change_conv_state(data):
+    print("\n\nchange_conv_state executed\n\n")
+    room = session.get("room")
+    new_state = data["data"]
+    conv = Conversation.query.filter_by(id=room).first()
+    conv.state = new_state
+    db.session.commit()
+    leave_room(room)
+
 @socketio.on("message")
 def message(data):
     room = session.get("room")
@@ -129,6 +140,12 @@ def message(data):
             conversation = room
         )
     db.session.add(new_message)
+    conversation = Conversation.query.filter_by(id=room).first()
+    if current_user.team_status == 0:
+        conversation.new_msg = 1
+    else:
+        conversation.new_msg = 0
+        conversation.last_editor = current_user.username
     db.session.commit()
     current_time = datetime.now()
     content = {

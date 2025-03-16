@@ -367,6 +367,7 @@ a:hover {
 }
 
 .chatbox-wrapper {
+  width: 50%;
   float: left;
   margin-right: auto;
   height: 700px;
@@ -731,12 +732,23 @@ td {
   background-color: rgb(80, 50, 50);
 }
 
+.conversation-state-btn {
+  color: white;
+  background-color: inherit;
+  border: none;
+}
+
+.conversation-state-btn:hover {
+  color: crimson;
+}
+
 .conversation-name {
   display: flex;
   align-items: center;
   font-size: 28px;
   background-color: rgb(55, 35, 35);
   border-radius: 10px;
+  width: 100%;
 }
 
 .conversation-name button {
@@ -767,27 +779,34 @@ td {
 
 .profil-container {
   color: white;
-  display: block;
+  display: flex;
+  flex-flow: column;
   max-width: 100%;
+  gap: 25px;
+  min-width: 50%;
 }
 
 .user-info {
   font-size: 22px;
   display: flex;
-  gap: 25px;
+  flex-flow: column;
+  gap: 20px;
 }
 
 .label-box {
-  padding: 10px 10px;
+  display: flex;
+  flex-flow: row;
+  gap: 10px;
 }
 .content-box {
-  padding: 10px 10px;
   word-wrap: break-word;
   overflow: hidden;
+  min-width: 50%;
 }
 
 .logout-btn {
   padding: 10px 10px;
+  max-width: fit-content;
   font-size: 22px;
   border: 1px solid crimson;
   color: whitesmoke;
@@ -840,6 +859,9 @@ td {
 
 /* Media Query für kleinere Bildschirme */
 @media (max-width: 1000px) {
+  .label-box {
+    flex-flow: column;
+  }
   .user-info {
     font-size: 18px;
   }

@@ -2,14 +2,21 @@
   <div style="font-size: 42px">Dein Profil</div>
   <div class="user-info">
     <div class="label-box">
-      <p>E-Mail:</p>
-      <p>Benutzername:</p>
-      <p>Passwort:</p>
+      <div class="content-box">Nutzername:</div>
+      <div>{{ username }}</div>
     </div>
-    <div class="content-box">
-      <p>{{ email }}</p>
-      <p>{{ username }}</p>
-      <p>Passwort ändern</p>
+    <div class="label-box">
+      <div class="content-box">E-Mail:</div>
+      <div>{{ email }}</div>
+    </div>
+    <div class="label-box">
+      <div class="content-box">Passwort:</div>
+      <button class="change-password" 
+              id="change-password" 
+              onclick="changePassword()"
+      >
+        Passwort ändern
+      </button>
     </div>
   </div>
   <button class="logout-btn" name="logout" onclick="location.href = '/logout'">
