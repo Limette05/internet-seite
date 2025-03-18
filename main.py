@@ -120,7 +120,6 @@ def disconnect():
 
 @socketio.on("change_conv_state")
 def change_conv_state(data):
-    print("\n\nchange_conv_state executed\n\n")
     room = session.get("room")
     new_state = data["data"]
     conv = Conversation.query.filter_by(id=room).first()
@@ -156,6 +155,12 @@ def message(data):
     send(content, to=room)
 
 
+def sortByNewMsg(conv):
+  return conv.new_msg
+
+def sortByName(conv):
+  return conv.title
+
 @app.route("/chat-redirect", methods=["POST","GET"])
 def chat_redirect():
     # check if conversation exists and give parameters
@@ -172,6 +177,8 @@ def chat_redirect():
         raw_conversations = Conversation.query.all()
         for conv in raw_conversations:
             conversations.append(conv)
+        conversations.sort(key=sortByName)
+        conversations.sort(reverse=True, key=sortByNewMsg)
 
         get_conv_id = request.args.get('conv_id')
         if get_conv_id:
@@ -199,7 +206,7 @@ def chat_redirect():
                 })
 
     return render_template("chat-redirect.html", username=user.username, messages=dict_messages,
-                            team_status=team_status, conversations=conversations)
+                            team_status=team_status, conversations=conversations, current_conversation=room)
 
 
 @app.route("/dashboard", methods=["GET","POST"])
@@ -272,4 +279,4 @@ def forgot_password():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="45.93.249.124")
+    app.run(host="45.93.249.124")

@@ -66,7 +66,7 @@
         </div>
 
         {% if team_status > 0 %}
-        <div class="chatbox-wrapper" style="border: none;" id="chatbox-btns">
+        <div class="chatbox-wrapper" style="border: none" id="chatbox-btns">
           <div style="font-size: 28px">Offene Konversationen:</div>
           <input
             type="text"
@@ -112,6 +112,16 @@
             </div>
           </div>
           <div
+            style="
+              text-align: end;
+              width: 100%;
+              color: rgba(255, 255, 255, 0.75);
+              font-size: 13px;
+            "
+          >
+            Klicken zum Status ändern
+          </div>
+          <div
             id="conversationsList"
             class="conversations-list"
             style="
@@ -119,13 +129,17 @@
               overflow-y: scroll;
               max-width: 100%;
               display: flex;
+              flex-flow: column;
               align-items: center;
             "
           >
             {% for conv in conversations %}
-            <div class="conversation-listing" style="width: 100%;display: flex; flex-flow: column; gap: 5px;">
-              <div class="conv-select" style="display: flex;">
-                <div class="conversation-name" id="{{ conv.id }}">
+            <div
+              class="conversation-listing"
+              style="width: 100%; display: flex; flex-flow: column; gap: 5px"
+            >
+              <div class="conv-select" style="display: flex">
+                <div class="conversation-name">
                   <button
                     class="conv-title"
                     onclick="redirectToChat('{{ conv.id }}')"
@@ -139,22 +153,23 @@
                   ></i>
                   {% endif %}
                 </div>
-                <button id="conversation-state-btn" 
-                        class="conversation-state-btn" 
-                        style="padding: 5px 5px;" 
-                        onclick="changeConvState()"
-                        value="{{ conv.state }}"
+                <button
+                  id="{{ conv.id }}"
+                  class="conversation-state-btn"
+                  style="padding: 5px 5px"
+                  onclick="changeConvState('{{ conv.id }}')"
+                  value="{{ conv.state }}"
                 >
                   {% if conv.state == 1 %}
-                    <i class="bx bx-time" style="font-size: 30px"></i>
+                  <i class="bx bx-time" style="font-size: 30px"></i>
                   {% elif conv.state == 2 %}
-                    <i class="bx bx-check-circle" style="font-size: 30px"></i>
+                  <i class="bx bx-check-circle" style="font-size: 30px"></i>
                   {% else %}
-                    <i class="bx bx-envelope" style="font-size: 30px"></i>
+                  <i class="bx bx-envelope" style="font-size: 30px"></i>
                   {% endif %}
                 </button>
               </div>
-              <div class="conversation-info" style="font-size: 18px;">
+              <div class="conversation-info" style="font-size: 18px">
                 Bearbeiter: {{ conv.last_editor }}
               </div>
             </div>
@@ -230,19 +245,20 @@
 
   var socket = io("http://45.93.249.124:5000");
 
-  function changeConvState() {
-    var convState = document.getElementById("conversation-state-btn");
+  function changeConvState(convID) {
+    if (convID != "{{ current_conversation.id }}") return;
+    var convState = document.getElementById(convID);
     if (convState.value == 0) {
-      convState.innerHTML = `<i class="bx bx-time" style="font-size: 30px"></i>`
-      convState.value = 1
+      convState.innerHTML = `<i class="bx bx-time" style="font-size: 30px"></i>`;
+      convState.value = 1;
     } else if (convState.value == 1) {
-      convState.innerHTML = `<i class="bx bx-check-circle" style="font-size: 30px"></i>`
-      convState.value = 2
+      convState.innerHTML = `<i class="bx bx-check-circle" style="font-size: 30px"></i>`;
+      convState.value = 2;
     } else {
-      convState.innerHTML = `<i class="bx bx-envelope" style="font-size: 30px"></i>`
-      convState.value = 0
-    }; // get conv.state
-    socket.emit("change_conv_state", { data: convState.value })
+      convState.innerHTML = `<i class="bx bx-envelope" style="font-size: 30px"></i>`;
+      convState.value = 0;
+    } // get conv.state
+    socket.emit("change_conv_state", { data: convState.value });
   }
 
   const messages = document.getElementById("messages");
