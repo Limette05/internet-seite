@@ -1,10 +1,28 @@
 #!/bin/bash
 
+# Ins richtige Verzeichnis wechseln
+cd internet-seite/ || { echo "Verzeichnis internet-seite/ nicht gefunden!"; exit 1; }
+
+# Datei definieren
+DATEI="main.py"
+
+# Änderungen vornehmen
+sed -i "20s|.*|host = 'your host'|" "$DATEI"
+sed -i "27s|.*|app.config['MAIL_USERNAME'] = 'noreply.your@email.com'|" "$DATEI"
+sed -i "28s|.*|app.config['MAIL_PASSWORD'] = 'your app password'|" "$DATEI"
+
+echo "main.py wurde aktualisiert."
+
 # Name der virtuellen Umgebung
 VENV_DIR="venv"
 
 # Name der Screen-Session
 SCREEN_NAME="flask_app"
+
+MAIN_SCRIPT="main.py"
+
+# Python-Version
+PYTHON_BIN="/usr/local/bin/python3.11"
 
 # Überprüfen, ob screen installiert ist
 if ! command -v screen &> /dev/null; then
@@ -23,7 +41,7 @@ source $VENV_DIR/bin/activate
 
 # Installieren der Abhängigkeiten
 pip install --upgrade pip
-pip install flask flask_sqlalchemy flask_login flask_wtf flask_bcrypt flask_socketio wtforms
+pip install flask flask_sqlalchemy flask-mail flask_login flask_wtf flask_bcrypt flask_socketio wtforms
 
 # Überprüfen, ob die Screen-Session bereits läuft
 if screen -list | grep -q "$SCREEN_NAME"; then
@@ -31,6 +49,6 @@ if screen -list | grep -q "$SCREEN_NAME"; then
     screen -r $SCREEN_NAME
 else
     echo "Starte Flask-App in einer neuen Screen-Session..."
-    screen -dmS $SCREEN_NAME bash -c "source $VENV_DIR/bin/activate && python3 main.py"
+    screen -AmdS "$SCREEN_NAME" /bin/bash -c "while true; do $PYTHON_BIN '$MAIN_SCRIPT'; echo 'Website crashed. Restarting in 10 seconds...'; sleep 10; done"
     echo "Flask-App läuft jetzt in der Screen-Session '$SCREEN_NAME'."
 fi
