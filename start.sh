@@ -6,6 +6,11 @@ VENV_DIR="venv"
 # Name der Screen-Session
 SCREEN_NAME="flask_app"
 
+MAIN_SCRIPT="main.py"
+
+# Python-Version
+PYTHON_BIN="/usr/local/bin/python3.11"
+
 # Überprüfen, ob screen installiert ist
 if ! command -v screen &> /dev/null; then
     echo "Error: screen ist nicht installiert. Bitte installiere es mit 'sudo apt-get install screen'"
@@ -22,8 +27,8 @@ fi
 source $VENV_DIR/bin/activate
 
 # Installieren der Abhängigkeiten
-pip install --upgrade pip
-pip install flask flask_sqlalchemy flask_login flask_wtf flask_bcrypt flask_socketio wtforms
+pip3.11 install --upgrade pip
+pip3.11 install flask flask_sqlalchemy flask-mail flask_login flask_wtf flask_bcrypt flask_socketio wtforms
 
 # Überprüfen, ob die Screen-Session bereits läuft
 if screen -list | grep -q "$SCREEN_NAME"; then
@@ -31,6 +36,6 @@ if screen -list | grep -q "$SCREEN_NAME"; then
     screen -r $SCREEN_NAME
 else
     echo "Starte Flask-App in einer neuen Screen-Session..."
-    screen -dmS $SCREEN_NAME bash -c "source $VENV_DIR/bin/activate && python3 main.py"
+    screen -AmdS "$SCREEN_NAME" /bin/bash -c "while true; do $PYTHON_BIN '$MAIN_SCRIPT'; echo 'Website crashed. Restarting in 10 seconds...'; sleep 10; done"
     echo "Flask-App läuft jetzt in der Screen-Session '$SCREEN_NAME'."
 fi
