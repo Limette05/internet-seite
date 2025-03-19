@@ -1,5 +1,18 @@
 #!/bin/bash
 
+# Ins richtige Verzeichnis wechseln
+cd internet-seite/ || { echo "Verzeichnis internet-seite/ nicht gefunden!"; exit 1; }
+
+# Datei definieren
+DATEI="main.py"
+
+# Änderungen vornehmen
+sed -i "20s|.*|host = 'your host'|" "$DATEI"
+sed -i "27s|.*|app.config['MAIL_USERNAME'] = 'noreply.your@email.com'|" "$DATEI"
+sed -i "28s|.*|app.config['MAIL_PASSWORD'] = 'your app password'|" "$DATEI"
+
+echo "main.py wurde aktualisiert."
+
 # Name der virtuellen Umgebung
 VENV_DIR="venv"
 
@@ -27,8 +40,13 @@ fi
 source $VENV_DIR/bin/activate
 
 # Installieren der Abhängigkeiten
+<<<<<<< HEAD
 pip3.11 install --upgrade pip
 pip3.11 install flask flask_sqlalchemy flask-mail flask_login flask_wtf flask_bcrypt flask_socketio wtforms
+=======
+pip install --upgrade pip
+pip install flask flask_sqlalchemy flask-mail flask_login flask_wtf flask_bcrypt flask_socketio wtforms
+>>>>>>> dc5f9e567879b9b17ab9678d7f8c45e0d8af9e9f
 
 # Überprüfen, ob die Screen-Session bereits läuft
 if screen -list | grep -q "$SCREEN_NAME"; then

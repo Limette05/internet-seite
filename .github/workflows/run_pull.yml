@@ -19,5 +19,7 @@ jobs:
         ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
     - name: connect and pull
       run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && git checkout -f ${{ secrets.MAIN_BRANCH }} && git clean -xdf && git pull && exit"
+    - name: restart website (optional)
+      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.START_DIR }} && screen -r flask_app -X quit && ./start.sh && exit"
     - name: cleanup
       run: rm -rf ~/.ssh
