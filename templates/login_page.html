@@ -22,16 +22,15 @@
     <div class="menu_bar"></div>
     <div style="min-height: 100vh; display: grid; place-content: center">
       <div class="login-wrapper">
-        <form class="login-form" action="" method="POST">
+        <form class="login-form" method="POST">
           <h1 style="width: fit-content; margin-inline: auto">Login</h1>
           {% if error %}
           <ul>
-            <li>{{error}}</li>
+            <div>{{error}}</div>
           </ul>
           {% endif %}
           <div class="input-box">
-            {{ form.hidden_tag() }} {{ form.username(class="login-form-input")
-            }}
+            {{ form.hidden_tag() }} {{ form.email(class="login-form-input") }}
             <i class="login-icon bx bxs-user"></i>
           </div>
           <div class="input-box">

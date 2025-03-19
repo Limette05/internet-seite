@@ -717,6 +717,21 @@ td {
   border-radius: 10px;
 }
 
+.lite-btn {
+  padding: 10px 20px;
+  border-radius: 10px;
+  text-align: center;
+  border: none;
+  font-size: 22px;
+  color: whitesmoke;
+  background-color: rgb(55, 35, 35);
+}
+
+.lite-btn:hover {
+  color: crimson;
+  background-color: rgb(80, 50, 50);
+}
+
 .page-nav button {
   padding: 10px 20px;
   border-radius: 10px;

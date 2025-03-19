@@ -243,7 +243,7 @@
       });
   }
 
-  var socket = io("http://45.93.249.124:5000");
+  var socket = io("http://{{ host }}:5000");
 
   function changeConvState(convID) {
     if (convID != "{{ current_conversation.id }}") return;

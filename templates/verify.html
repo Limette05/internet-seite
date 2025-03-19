@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>F. Walter Roth KG</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='/style.css') }}"
+    />
+  </head>
+
+  <body>
+    <div class="menu_bar"></div>
+    <div style="min-height: 100vh; display: grid; place-content: center">
+      <div class="login-wrapper">
+        {% if error%}
+        <ul>
+          <div>
+            Normalerweise solltest du bald automatisch weitergeleitet werden.
+            <br />Wenn du länger hier bleibst, hat der Link zur Verifizierung
+            nicht funktioniert. <br />Überprüfe nochmal dein E-Mail Postfach,
+            sowie den Spam Ordner.
+          </div>
+          if
+        </ul>
+        {% endif %} {% if email_sent %}
+        <ul>
+          <div>
+            <h2>
+              Der Link zur Verifizierung wurde an {{email_sent}} gesendet!
+            </h2>
+            Klicke ausschließlich auf unseren Link von
+            'noreply.limette05@gmail.com'
+            <br />Überprüfe auch deinen Spam-Ordner!"
+          </div>
+        </ul>
+        {% endif %} {% if need_verify %}
+        <form method="POST">
+          <button name="send-email-again" class="lite-btn">
+            Link zur Verifizierung per E-Mail senden
+          </button>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+  </body>
+  <footer class="footer_bar"></footer>
+  <script src="/static/html addons/script.js"></script>
+</html>

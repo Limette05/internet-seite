@@ -1,7 +1,9 @@
 from datetime import datetime
+import time
 from flask import Flask, render_template, request, session, jsonify, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user, login_remembered
+from flask_mail import Mail, Message as mail_msg
 from flask_wtf import FlaskForm
 from flask_bcrypt import Bcrypt
 from flask_socketio import SocketIO, send, emit, join_room, leave_room, send, SocketIO
@@ -16,11 +18,18 @@ class Base(DeclarativeBase):
   pass
 
 db = SQLAlchemy(model_class=Base)
-
+host = "localhost" # your IP address or Domain (str)
 
 app = Flask(__name__, static_folder="static")
 socketio = SocketIO(app)
 bcrypt = Bcrypt(app)
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'your@email.com'
+app.config['MAIL_PASSWORD'] = 'your app password'
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+mail = Mail(app)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 SECRET_KEY = os.urandom(32)
@@ -36,11 +45,6 @@ login_manager.login_view = 'login'
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
-# neue Nachricht -> neue Konversation(username)
-# add 
-#
-#
 
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -66,11 +70,12 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(80), nullable=False)
     team_status = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime(), default=datetime.now)
+    verified = db.Column(db.Integer, nullable=False)
 
 class RegisterForm(FlaskForm):
     email = EmailField(validators=[InputRequired()], render_kw={"placeholder":"E-Mail"})
-    username = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Nutzername"})
-    password = PasswordField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Passwort"})
+    username = StringField(validators=[InputRequired(), Length(min=4, max=64)], render_kw={"placeholder": "Nutzername"})
+    password = PasswordField(validators=[InputRequired(), Length(min=4, max=64)], render_kw={"placeholder": "Passwort"})
     submit = SubmitField("Registrieren")
 
     def validate_username(self, username):
@@ -86,8 +91,8 @@ class RegisterForm(FlaskForm):
             raise ValidationError("E-Mail bereits vergeben")
     
 class LoginForm(FlaskForm):
-    username = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Nutzername"})
-    password = PasswordField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Passwort"})
+    email = EmailField(validators=[InputRequired()], render_kw={"placeholder":"E-Mail"})
+    password = PasswordField(validators=[InputRequired(), Length(min=4, max=64)], render_kw={"placeholder": "Passwort"})
     submit = SubmitField("Anmelden")
 
 
@@ -99,9 +104,6 @@ def index():
     login_state = False
     if current_user.is_authenticated:
         login_state = True
-    # todo
-    # make request for messages when clicking on select conversation
-    # when opening chat give plus-chat and select existing-chat
     return render_template("index.html", login_state=login_state)
 
 @socketio.on("connect")
@@ -163,8 +165,10 @@ def sortByName(conv):
 
 @app.route("/chat-redirect", methods=["POST","GET"])
 def chat_redirect():
-    # check if conversation exists and give parameters
-    # if not create conversation
+    if not current_user.is_authenticated:
+        return redirect("/login")
+    if current_user.verified != 1:
+        return redirect("/verify")
     conversations = []
     user = User.query.filter_by(id=current_user.id).first()
     room = Conversation.query.filter_by(owner=user.id).first()
@@ -206,23 +210,60 @@ def chat_redirect():
                 })
 
     return render_template("chat-redirect.html", username=user.username, messages=dict_messages,
-                            team_status=team_status, conversations=conversations, current_conversation=room)
+                            team_status=team_status, conversations=conversations, current_conversation=room, host=host)
 
 
 @app.route("/dashboard", methods=["GET","POST"])
 def dashboard():
     if not current_user.is_authenticated:
         return redirect("/login")
+    if current_user.verified != 1:
+        return redirect("/verify")
     user = User.query.filter_by(id=current_user.id).first()
     team_status = user.team_status
     return render_template("dashboard.html", team_status=team_status)
 
 @app.route("/profile", methods=['GET','POST'])
 def team_chat():
-    # full size chat with link back to chats
     email = current_user.email
     username = current_user.username
     return render_template("profile.html", email=email, username=username)
+
+def send_verification(email, code):
+    link = f"http://{host}:5000/verify?verify={code}"
+    msg = mail_msg("Verifizieren Sie ihre Anmeldung", sender="noreply.limette05@gmail.com",
+                   recipients=[email])
+    msg.body = f"Öffnen Sie diesen Link, um ihren Account zu verifizieren: {link}"
+    mail.send(msg)
+    return("E-Mail wurde gesendet! Überprüfe dein Postfach.")
+
+@app.route("/verify", methods=["GET","POST"])
+def verify():
+    user = User.query.filter_by(id=current_user.id).first()
+    error = False
+    email_sent = ""
+    need_verify = True
+    if user.verified == 1:
+        need_verify = False 
+        return redirect("/dashboard")
+    get_code = request.args.get('verify')
+    print(f"\n\ncode:{get_code}\ncurrent user: {user.verified}\n")
+    if get_code:
+        print("\nget_code exists\n")
+        need_verify = False
+        if str(user.verified) == get_code:
+            print("\n\nverify fully executed\n")
+            user.verified = 1
+            db.session.commit()
+            return redirect("/dashboard")
+        else:
+            error = True
+    
+    if request.method == "POST":
+        need_verify = False
+        send_verification(user.email, user.verified)
+        email_sent = user.email
+    return render_template("verify.html", error=error, email_sent=email_sent, need_verify=need_verify)
 
 @app.route("/login", methods=["GET","POST"])
 def login():
@@ -230,7 +271,7 @@ def login():
     error = ""
     if form.validate_on_submit():
         error = "Nutzer nicht bekannt!"
-        user = User.query.filter_by(username=form.username.data).first()
+        user = User.query.filter_by(email=form.email.data).first()
         if user:
             error = "Falsches Passwort!"
             if bcrypt.check_password_hash(user.password, form.password.data):
@@ -252,7 +293,8 @@ def register():
         team_status = 2
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data)
-        new_user = User(email=form.email.data, username=username, password=hashed_password, team_status=team_status)
+        code = random.randint(11111111,99999999)
+        new_user = User(email=form.email.data, username=username, password=hashed_password, team_status=team_status, verified=code)
         db.session.add(new_user)
         db.session.commit()
         return redirect(url_for('login'))
@@ -268,8 +310,9 @@ def about_us():
     return render_template("about_us.html")
 
 @app.route("/logout", methods=['GET','POST'])
-@login_required
 def logout():
+    if not current_user.is_authenticated:
+        return redirect("/login")
     logout_user()
     return redirect(url_for('login'))
 
@@ -279,4 +322,4 @@ def forgot_password():
 
 
 if __name__ == "__main__":
-    app.run(host="45.93.249.124")
+    app.run(host=host)
