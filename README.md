@@ -7,13 +7,13 @@ Inhalt:
   - Navbar
   - Footer
   - FAQ/cookie popup
-    -> no actual cookies, just the banner
+    - no actual cookies, just the banner
   - Contact slider
   - Register and login
   - E-Mail verification
   - Private chat
-    -> Every user gets his own chat in which he can chat with staff
-    -> Staff can access every chat and manage crogress ctate
+    - Every user gets his own chat in which he can chat with staff
+    - Staff can access every chat and manage crogress ctate
 
 ToDo:
   - Advertisement banner in homepage
