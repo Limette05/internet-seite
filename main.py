@@ -306,7 +306,9 @@ def register():
         send_verification(new_user)
         db.session.add(new_user)
         db.session.commit()
-        return redirect(url_for('login'))
+        remember = request.form.get("rememberme", False)
+        login_user(new_user, remember=remember)
+        return redirect(url_for("dashboard"))
 
     return render_template("register_page.html", form=form)
 
