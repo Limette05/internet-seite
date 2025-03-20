@@ -290,7 +290,7 @@ def new_password():
                 db.session.commit()
                 login_user(user)
                 return redirect("/dashboard")
-    return render_template("/new_password", set_new_password=set_new_password, error=error)
+    return render_template("/new_password.html", set_new_password=set_new_password, error=error)
 
 @app.route("/verify", methods=["GET","POST"])
 def verify():
