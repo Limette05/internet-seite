@@ -273,7 +273,8 @@ def verify():
                 return redirect("/dashboard")
             else:
                 error = True
-        send_verification(user)
+        else:
+            send_verification(user)
     return render_template("verify.html", error=error, email_sent=email_sent, need_verify=need_verify)
 
 @app.route("/login", methods=["GET","POST"])
