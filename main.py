@@ -383,6 +383,7 @@ def logout():
 @app.route("/forgot_password", methods=["GET","POST"])
 def forgot_password():
     sent = ""
+    error = ""
     if request.method == "POST":
         get_email = request.form.get("reset-email", False)
         user = User.query.filter_by(email=get_email).first()
@@ -392,7 +393,9 @@ def forgot_password():
             db.session.commit()
             send_password_reset(data)
             sent = get_email
-    return render_template("forgot_password.html", sent=sent)
+        else:
+            error = f"Die E-Mail Adresse {get_email} wurde nicht gefunden."
+    return render_template("forgot_password.html", sent=sent, error=error)
 
 
 if __name__ == "__main__":
