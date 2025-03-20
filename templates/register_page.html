@@ -26,6 +26,9 @@
           <h1 style="width: fit-content; margin-inline: auto" *>
             Registrieren
           </h1>
+          {% if error %}
+          <div>{{ error }}</div>
+          {% endif %}
           <div class="input-box">
             {{ form.hidden_tag() }} {{ form.email(class="login-form-input") }}
             <i class="login-icon bx bx-envelope"></i>

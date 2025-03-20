@@ -345,6 +345,7 @@ def login():
 
 @app.route("/register", methods=["GET","POST"])
 def register():
+    error = ""
     form = RegisterForm()
     username = form.username.data
     team_status = 0
@@ -362,8 +363,10 @@ def register():
         remember = request.form.get("rememberme", False)
         login_user(new_user, remember=remember)
         return redirect(url_for("dashboard"))
+    else:
+        error = "Dieser Nutzer ist bereits registriert!"
 
-    return render_template("register_page.html", form=form)
+    return render_template("register_page.html", form=form, error=error)
 
 @app.route("/sortiment")
 def sortiment():
