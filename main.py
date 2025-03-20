@@ -246,6 +246,8 @@ def verify():
     user = User.query.filter_by(id=current_user.id).first()
     error = False
     email_sent = ""
+    if user.verified > 1:
+        email_sent = user.email
     need_verify = True
     if user.verified == 1:
         need_verify = False 
@@ -270,7 +272,6 @@ def verify():
             else:
                 error = True
         send_verification(user)
-        email_sent = user.email
     return render_template("verify.html", error=error, email_sent=email_sent, need_verify=need_verify)
 
 @app.route("/login", methods=["GET","POST"])
