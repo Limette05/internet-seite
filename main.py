@@ -280,8 +280,8 @@ def new_password():
             user = User.query.filter_by(email=code_verified.email).first()
             db.session.delete(code_verified)
         if request.method == "POST":
-            new_password1 = request.form.get("new_password1", False)
-            new_password2 = request.form.get("new_password2", False)
+            new_password1 = request.form.get("new-password1", False)
+            new_password2 = request.form.get("new-password2", False)
             if new_password1 != new_password2:
                 error = "Passwörter stimmen nicht überein!"
             else:
