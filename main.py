@@ -278,7 +278,7 @@ def new_password():
             user = current_user
         else:
             user = User.query.filter_by(email=code_verified.email).first()
-            code_verified.delete()
+            db.session.delete(code_verified)
         if request.method == "POST":
             new_password1 = request.form.get("new_password1", False)
             new_password2 = request.form.get("new_password2", False)
@@ -363,8 +363,6 @@ def register():
         remember = request.form.get("rememberme", False)
         login_user(new_user, remember=remember)
         return redirect(url_for("dashboard"))
-    else:
-        error = "Dieser Nutzer ist bereits registriert!"
 
     return render_template("register_page.html", form=form, error=error)
 
