@@ -56,13 +56,22 @@
           >
             <div>Oder gib den Code hier ein:</div>
             <div style="display: flex; flex-flow: row; gap: 10px; flex-grow: 1">
-              <input type="text" placeholder="XXX XXX" name="post_code" />
+              <input
+                class="messenger-form-text"
+                style="max-width: 80%"
+                type="text"
+                placeholder="XXXX XXXX"
+                name="post_code"
+              />
               <button type="submit" class="lite-btn">Verifizieren</button>
             </div>
           </form>
         </div>
         {% endif %} {% if need_verify %}
-        <form method="POST" style="margin-top: 25px">
+        <form
+          method="POST"
+          style="margin-top: 25px; margin-inline: auto; max-width: fit-content"
+        >
           <button name="send-email-again" class="lite-btn">
             Neuen Code zur Verifizierung erhalten
           </button>

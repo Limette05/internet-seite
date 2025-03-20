@@ -231,7 +231,7 @@ def team_chat():
 
 
 def send_verification(user):
-    code = random.randint(111111,999999)
+    code = random.randint(11111111,99999999)
     user.verified = code
     db.session.commit()
     link = f"http://{host}:5000/verify?verify={code}"
