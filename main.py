@@ -266,8 +266,11 @@ def new_password():
     get_code = request.args.get('code')
     set_new_password = False
     error = ""
-    if not get_code or not current_user.is_authenticated:
-        return redirect("/")
+    if not get_code:
+        if current_user.is_authenticated:
+            pass
+        else:
+            return redirect("/")
     code_verified = NewPassword.query.filter_by(code=get_code).first()
     if code_verified or current_user.is_authenticated:
         set_new_password = True
