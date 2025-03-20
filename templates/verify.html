@@ -21,7 +21,7 @@
   <body>
     <div class="menu_bar"></div>
     <div style="min-height: 100vh; display: grid; place-content: center">
-      <div class="login-wrapper">
+      <div class="login-wrapper" style="font-size: 18px">
         {% if error%}
         <ul>
           <div>
@@ -43,40 +43,54 @@
             'noreply.limette05@gmail.com'
             <br />Überprüfe auch deinen Spam-Ordner!
           </div>
-          <form
-            style="
-              display: flex;
-              flex-flow: column;
-              gap: 10px;
-              max-width: 80%;
-              margin-inline: auto;
-              align-items: center;
-            "
-            method="POST"
-          >
-            <div>Oder gib den Code hier ein:</div>
-            <div style="display: flex; flex-flow: row; gap: 10px; flex-grow: 1">
-              <input
-                class="messenger-form-text"
-                style="max-width: 80%"
-                type="text"
-                placeholder="XXXX XXXX"
-                name="post_code"
-              />
-              <button type="submit" class="lite-btn">Verifizieren</button>
-            </div>
-          </form>
+          <div style="max-width: 80%; margin-inline: auto">
+            <form
+              style="
+                display: flex;
+                flex-flow: column;
+                gap: 10px;
+                width: 100%;
+                margin-inline: auto;
+                align-items: center;
+              "
+              method="POST"
+            >
+              <div>Oder gib den Code hier ein:</div>
+              <div
+                style="display: flex; flex-flow: row; gap: 10px; flex-grow: 1"
+              >
+                <input
+                  class="messenger-form-text"
+                  style="
+                    background-color: whitesmoke;
+                    color: black;
+                    width: 100%;
+                  "
+                  type="text"
+                  placeholder="XXXX XXXX"
+                  name="post_code"
+                />
+                <button style="font-size: 20px" type="submit" class="lite-btn">
+                  Verifizieren
+                </button>
+              </div>
+            </form>
+            {% endif %} {% if need_verify %}
+            <form
+              method="POST"
+              style="margin-top: 25px; margin-inline: auto; max-width: 100%"
+            >
+              <button
+                style="font-size: 20px; width: 100%"
+                name="send-email-again"
+                class="lite-btn"
+              >
+                Neuen Code zur Verifizierung erhalten
+              </button>
+            </form>
+            {% endif %}
+          </div>
         </div>
-        {% endif %} {% if need_verify %}
-        <form
-          method="POST"
-          style="margin-top: 25px; margin-inline: auto; max-width: fit-content"
-        >
-          <button name="send-email-again" class="lite-btn">
-            Neuen Code zur Verifizierung erhalten
-          </button>
-        </form>
-        {% endif %}
       </div>
     </div>
   </body>
