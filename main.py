@@ -229,11 +229,15 @@ def team_chat():
     username = current_user.username
     return render_template("profile.html", email=email, username=username)
 
-def send_verification(email, code):
+
+def send_verification(user):
+    code = random.randint(111111,999999)
+    user.verified = code
+    db.session.commit()
     link = f"http://{host}:5000/verify?verify={code}"
     msg = mail_msg("Verifizieren Sie ihre Anmeldung", sender="noreply.limette05@gmail.com",
-                   recipients=[email])
-    msg.body = f"Öffnen Sie diesen Link, um ihren Account zu verifizieren: {link}"
+                   recipients=[user.email])
+    msg.body = f"Hallo {user.username}!\nÖffnen Sie diesen Link, um ihren Account zu verifizieren:\n{link}\n\nOder geben Sie den Code im Eingabefeld ein:\n{code}\n\nDas sind Sie nicht?\nDann ignorieren Sie diese Nachricht einfach."
     mail.send(msg)
     return("E-Mail wurde gesendet! Überprüfe dein Postfach.")
 
@@ -247,12 +251,9 @@ def verify():
         need_verify = False 
         return redirect("/dashboard")
     get_code = request.args.get('verify')
-    print(f"\n\ncode:{get_code}\ncurrent user: {user.verified}\n")
     if get_code:
-        print("\nget_code exists\n")
         need_verify = False
         if str(user.verified) == get_code:
-            print("\n\nverify fully executed\n")
             user.verified = 1
             db.session.commit()
             return redirect("/dashboard")
@@ -260,8 +261,15 @@ def verify():
             error = True
     
     if request.method == "POST":
-        need_verify = False
-        send_verification(user.email, user.verified)
+        get_code_entry = request.form.get("post_code", False)
+        if get_code_entry:
+            if str(user.verified) == get_code_entry:
+                user.verified = 1
+                db.session.commit()
+                return redirect("/dashboard")
+            else:
+                error = True
+        send_verification(user)
         email_sent = user.email
     return render_template("verify.html", error=error, email_sent=email_sent, need_verify=need_verify)
 
@@ -295,6 +303,7 @@ def register():
         hashed_password = bcrypt.generate_password_hash(form.password.data)
         code = random.randint(11111111,99999999)
         new_user = User(email=form.email.data, username=username, password=hashed_password, team_status=team_status, verified=code)
+        send_verification(new_user)
         db.session.add(new_user)
         db.session.commit()
         return redirect(url_for('login'))
