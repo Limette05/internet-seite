@@ -36,6 +36,9 @@ SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
 db.init_app(app)
 
+team_list = ["Team1","Team2"]
+admin_list = ["Limette","Admin"]
+
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -297,11 +300,9 @@ def register():
     form = RegisterForm()
     username = form.username.data
     team_status = 0
-    team_list = ["Lena Langenfels", "Jens Steinmetz", "Christian Rymas", "Andrea Roth Wiegand", "Jens Richter"]
-    admin_list = ["Christian Roth", "Michael Fix", "Ilka Roth", "Kerstin Roth"]
-    if username in team_list:
+    if username in team_list:  # edit your team_list
         team_status = 1
-    elif username in admin_list:
+    elif username in admin_list:  # edit your admin_list
         team_status = 2
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data)
