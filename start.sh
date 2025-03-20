@@ -1,18 +1,5 @@
 #!/bin/bash
 
-# Ins richtige Verzeichnis wechseln
-cd internet-seite/ || { echo "Verzeichnis internet-seite/ nicht gefunden!"; exit 1; }
-
-# Datei definieren
-DATEI="main.py"
-
-# Änderungen vornehmen
-sed -i "20s|.*|host = 'your host'|" "$DATEI"
-sed -i "27s|.*|app.config['MAIL_USERNAME'] = 'noreply.your@email.com'|" "$DATEI"
-sed -i "28s|.*|app.config['MAIL_PASSWORD'] = 'your app password'|" "$DATEI"
-
-echo "main.py wurde aktualisiert."
-
 # Name der virtuellen Umgebung
 VENV_DIR="venv"
 
