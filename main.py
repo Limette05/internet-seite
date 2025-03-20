@@ -243,6 +243,8 @@ def send_verification(user):
 
 @app.route("/verify", methods=["GET","POST"])
 def verify():
+    if not current_user.is_authenticated:
+        return redirect("/login")
     user = User.query.filter_by(id=current_user.id).first()
     error = False
     email_sent = ""

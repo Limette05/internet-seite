@@ -33,17 +33,25 @@
           if
         </ul>
         {% endif %} {% if email_sent %}
-        <div style="display: flex; flex-flow: column; gap: 25px">
+        <div style="display: flex; flex-flow: column; gap: 25px; width: 100%">
           <div>
-            <h2>
-              Der Link zur Verifizierung wurde an {{email_sent}} gesendet!
-            </h2>
+            <h3>
+              Der Link zur Verifizierung wurde gesendet an:
+              <br />{{email_sent}}
+            </h3>
             Klicke ausschließlich auf unseren Link von
             'noreply.limette05@gmail.com'
             <br />Überprüfe auch deinen Spam-Ordner!
           </div>
           <form
-            style="display: flex; flex-flow: column; gap: 10px"
+            style="
+              display: flex;
+              flex-flow: column;
+              gap: 10px;
+              max-width: 80%;
+              margin-inline: auto;
+              align-items: center;
+            "
             method="POST"
           >
             <div>Oder gib den Code hier ein:</div>
