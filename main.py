@@ -290,7 +290,7 @@ def new_password():
                 db.session.commit()
                 login_user(user)
                 return redirect("/dashboard")
-    return render_template("/new_password.html", set_new_password=set_new_password, error=error)
+    return render_template("new_password.html", set_new_password=set_new_password, error=error)
 
 @app.route("/verify", methods=["GET","POST"])
 def verify():
@@ -380,9 +380,19 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-@app.route("/forgot_password")
+@app.route("/forgot_password", methods=["GET","POST"])
 def forgot_password():
-    return render_template("forgot_password.html")
+    sent = ""
+    if request.method == "POST":
+        get_email = request.form.get("reset-email", False)
+        user = User.query.filter_by(email=get_email).first()
+        if user:
+            data = NewPassword(email=get_email, code="")
+            db.session.add(data)
+            db.session.commit()
+            send_password_reset(data)
+            sent = get_email
+    return render_template("forgot_password.html", sent=sent)
 
 
 if __name__ == "__main__":
