@@ -13,6 +13,7 @@ from wtforms.validators import InputRequired, Length, ValidationError
 from sqlalchemy import Integer, String, select
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 import os
+import string
 
 class Base(DeclarativeBase):
   pass
@@ -74,6 +75,11 @@ class User(db.Model, UserMixin):
     team_status = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime(), default=datetime.now)
     verified = db.Column(db.Integer, nullable=False)
+
+class NewPassword(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(200), nullable=False, unique=True)
+    code = db.Column(db.String, nullable=False)
 
 class RegisterForm(FlaskForm):
     email = EmailField(validators=[InputRequired()], render_kw={"placeholder":"E-Mail"})
@@ -233,6 +239,17 @@ def team_chat():
     return render_template("profile.html", email=email, username=username)
 
 
+def send_password_reset(data):
+    code = "".join(random.choice(string.ascii_uppercase+string.digits) for _ in range(24))
+    data.code = code
+    db.session.commit()
+    link = f"http://{host}:5000/new_password?code={code}"
+    msg = mail_msg("Passwort zurücksetzen", sender="noreply.limette05@gmail.com",
+                   recipients=[data.email])
+    msg.body = f"Über folgenden Link können Sie ihr Passwort zurücksetzen:\n{link}\n\nDas sind Sie nicht?\nDann ignorieren Sie diese Nachricht einfach."
+    mail.send(msg)
+    return("E-Mail wurde gesendet! Überprüfe dein Postfach.")
+
 def send_verification(user):
     code = random.randint(11111111,99999999)
     user.verified = code
@@ -243,6 +260,36 @@ def send_verification(user):
     msg.body = f"Hallo {user.username}!\nÖffnen Sie diesen Link, um ihren Account zu verifizieren:\n{link}\n\nOder geben Sie den Code im Eingabefeld ein:\n{code}\n\nDas sind Sie nicht?\nDann ignorieren Sie diese Nachricht einfach."
     mail.send(msg)
     return("E-Mail wurde gesendet! Überprüfe dein Postfach.")
+
+@app.route("/new_password", methods=["GET","POST"])
+def new_password():
+    get_code = request.args.get('code')
+    set_new_password = False
+    error = ""
+    if not get_code or not current_user.is_authenticated:
+        return redirect("/")
+    code_verified = NewPassword.query.filter_by(code=get_code).first()
+    if code_verified or current_user.is_authenticated:
+        set_new_password = True
+        if current_user.is_authenticated:
+            user = current_user
+        else:
+            user = User.query.filter_by(email=code_verified.email).first()
+            code_verified.delete()
+        if request.method == "POST":
+            new_password1 = request.form.get("new_password1", False)
+            new_password2 = request.form.get("new_password2", False)
+            if new_password1 != new_password2:
+                error = "Passwörter stimmen nicht überein!"
+            else:
+                hashed_password = bcrypt.generate_password_hash(new_password1)
+                user.password = hashed_password
+                db.session.commit()
+                login_user(user)
+                return redirect("/dashboard")
+    else:
+        return redirect("/")
+    return render_template("/new_password", set_new_password=set_new_password, error=error)
 
 @app.route("/verify", methods=["GET","POST"])
 def verify():

@@ -25,19 +25,20 @@
         <form class="login-form" method="POST">
           <h1 style="width: fit-content; margin-inline: auto">Login</h1>
           {% if error %}
-          <ul>
-            <div>{{error}}</div>
-          </ul>
+          <div>{{error}}</div>
           {% endif %}
           <div class="input-box">
             {{ form.hidden_tag() }} {{ form.email(class="login-form-input") }}
-            <i class="login-icon bx bxs-user"></i>
+            <i class="login-icon bx bx-envelope"></i>
           </div>
           <div class="input-box">
             {{ form.password(class="login-form-input") }}
             <i class="login-icon bx bx-lock-alt"></i>
           </div>
           <div class="remember-forgot">
+            <div style="width: fit-content; margin-inline: auto">
+              Passwort <a href="/forgot_password">vergessen</a>?
+            </div>
             <label>
               <input
                 type="checkbox"
@@ -53,7 +54,9 @@
           <div>
             <p>
               Sie haben noch keinen Account? <br />
-              <a href="register">Jetzt Registrieren</a>
+              <a style="width: fit-content; margin-inline: auto" href="register"
+                >Jetzt Registrieren</a
+              >
             </p>
           </div>
         </form>
