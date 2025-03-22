@@ -30,6 +30,15 @@ source $VENV_DIR/bin/activate
 pip3.11 install --upgrade pip
 pip3.11 install flask flask_sqlalchemy flask-mail flask_login flask_wtf flask_bcrypt flask_socketio wtforms
 
-
-screen -AmdS "$SCREEN_NAME" /bin/bash -c "while true; do $PYTHON_BIN '$MAIN_SCRIPT'; echo 'Website crashed. Restarting in 10 seconds...'; sleep 10; done"
-echo "Flask-App läuft jetzt in der Screen-Session '$SCREEN_NAME'."
+# Überprüfen, ob die Screen-Session bereits läuft
+if screen -list | grep -q "$SCREEN_NAME"; then
+    echo "Screen-Session '$SCREEN_NAME' läuft bereits. Schließe..."
+    screen -d -r $SCREEN_NAME -X quit
+    echo "Starte Flask-App in einer neuen Screen-Session..."
+    screen -AmdS "$SCREEN_NAME" /bin/bash -c "while true; do $PYTHON_BIN '$MAIN_SCRIPT'; echo 'Website crashed. Restarting in 10 seconds...'; sleep 10; done"
+    echo "Flask-App läuft jetzt in der Screen-Session '$SCREEN_NAME'."
+else
+    echo "Starte Flask-App in einer neuen Screen-Session..."
+    screen -AmdS "$SCREEN_NAME" /bin/bash -c "while true; do $PYTHON_BIN '$MAIN_SCRIPT'; echo 'Website crashed. Restarting in 10 seconds...'; sleep 10; done"
+    echo "Flask-App läuft jetzt in der Screen-Session '$SCREEN_NAME'."
+fi
