@@ -91,13 +91,13 @@ class RegisterForm(FlaskForm):
         existing_user_username = User.query.filter_by(username=username.data).first()
 
         if existing_user_username:
-            raise ValidationError("Nutzername bereits vergeben")
+            return("Nutzername bereits vergeben")
     
     def validate_email(self, email):
         existing_user_email = User.query.filter_by(email=email.data).first()
 
         if existing_user_email:
-            raise ValidationError("E-Mail bereits vergeben")
+            return("E-Mail bereits vergeben")
     
 class LoginForm(FlaskForm):
     email = EmailField(validators=[InputRequired()], render_kw={"placeholder":"E-Mail"})
@@ -356,14 +356,18 @@ def register():
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data)
         code = random.randint(11111111,99999999)
-        new_user = User(email=form.email.data, username=username, password=hashed_password, team_status=team_status, verified=code)
+        email = form.email.data
+        new_user = User(email=email, username=username, password=hashed_password, team_status=team_status, verified=code)
         send_verification(new_user)
         db.session.add(new_user)
         db.session.commit()
         remember = request.form.get("rememberme", False)
         login_user(new_user, remember=remember)
         return redirect(url_for("dashboard"))
-
+    else:
+        error = form.validate_email(email)
+        if not error:
+            error = form.validate_username(username)
     return render_template("register_page.html", form=form, error=error)
 
 @app.route("/sortiment")
