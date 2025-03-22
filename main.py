@@ -357,6 +357,11 @@ def register():
         hashed_password = bcrypt.generate_password_hash(form.password.data)
         code = random.randint(11111111,99999999)
         email = form.email.data
+        error = form.validate_email(email)
+        if not error:
+            error = form.validate_username(username)
+        if error:
+            return render_template("register_page.html", form=form, error=error)
         new_user = User(email=email, username=username, password=hashed_password, team_status=team_status, verified=code)
         send_verification(new_user)
         db.session.add(new_user)
@@ -364,10 +369,6 @@ def register():
         remember = request.form.get("rememberme", False)
         login_user(new_user, remember=remember)
         return redirect(url_for("dashboard"))
-    else:
-        error = form.validate_email(email=email)
-        if not error:
-            error = form.validate_username(username=username)
     return render_template("register_page.html", form=form, error=error)
 
 @app.route("/sortiment")
