@@ -357,9 +357,9 @@ def register():
         hashed_password = bcrypt.generate_password_hash(form.password.data)
         code = random.randint(11111111,99999999)
         email = form.email.data
-        error = form.validate_email(email)
+        error = form.validate_email(form.email)
         if not error:
-            error = form.validate_username(username)
+            error = form.validate_username(form.username)
         if error:
             return render_template("register_page.html", form=form, error=error)
         new_user = User(email=email, username=username, password=hashed_password, team_status=team_status, verified=code)
