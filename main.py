@@ -365,9 +365,9 @@ def register():
         login_user(new_user, remember=remember)
         return redirect(url_for("dashboard"))
     else:
-        error = form.validate_email(email)
+        error = form.validate_email(email=email)
         if not error:
-            error = form.validate_username(username)
+            error = form.validate_username(username=username)
     return render_template("register_page.html", form=form, error=error)
 
 @app.route("/sortiment")
