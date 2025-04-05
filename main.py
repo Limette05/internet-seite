@@ -259,7 +259,7 @@ def delete_acc():
         """ask for verification"""
         if request.method == "POST":
             code = request.form.get('post_deletion_code', False)
-            if data.deletetion_code == str(code):
+            if data.deletion_code == str(code):
                 conversations = Conversation.query.filter_by(owner=user.id).all()
                 for conv in conversations:
                     messages = Message.query.filter_by(conversation=conv.id).all()
@@ -268,6 +268,8 @@ def delete_acc():
                 db.session.delete(conversations)
                 db.session.delete(messages)
                 db.session.commit()
+                logout_user()
+                return redirect("/login")
             else:
                 error = "Code falsch eingegeben!"
     else:
@@ -280,11 +282,10 @@ def send_delete_acc(data):
     code = "".join(random.choice(string.ascii_uppercase+string.digits) for _ in range(12))
     data.deletion_code = code
     db.session.commit()
-    link = f"http://{host}:5000/delete_acc?code={code}"
     msg = mail_msg("Account löschen", sender="noreply.limette05@gmail.com",
                    recipients=[data.email])
     msg.body = f"Möchten Sie Ihren Account wirklich löschen?\n\nAlle Daten werden unwiderruflich gelöscht!\n\n"
-    msg.body += f"Über diesen Link können Sie Ihren Account löschen:\n{link}\n\n\n"
+    msg.body += f"Ihr Eingabe-Code:\n{code}\n\n\n"
     msg.body += f"Das waren Sie nicht?\n"
     msg.body += f"Dann ignorieren Sie diese Nachricht einfach."
     mail.send(msg)
