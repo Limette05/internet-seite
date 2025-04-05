@@ -284,9 +284,9 @@ def send_delete_acc(data):
     msg = mail_msg("Account löschen", sender="noreply.limette05@gmail.com",
                    recipients=[data.email])
     msg.body = f"Möchten Sie Ihren Account wirklich löschen?\n\nAlle Daten werden unwiderruflich gelöscht!\n\n"
-    "Über diesen Link können Sie Ihren Account löschen:\n{link}\n\n\n"
-    "Das waren Sie nicht?\n"
-    "Dann ignorieren Sie diese Nachricht einfach."
+    f"Über diesen Link können Sie Ihren Account löschen:\n{link}\n\n\n"
+    f"Das waren Sie nicht?\n"
+    f"Dann ignorieren Sie diese Nachricht einfach."
     mail.send(msg)
     return("E-Mail wurde gesendet! Überprüfe dein Postfach.")
 
