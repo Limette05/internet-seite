@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>F. Walter Roth KG</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='/style.css') }}"
+    />
+  </head>
+
+  <body>
+    <div class="menu_bar"></div>
+    <div style="min-height: 100vh; display: grid; place-content: center">
+      <div class="login-wrapper" style="font-size: 18px">
+        {% if error%}
+        <div>
+          Normalerweise solltest du bald automatisch weitergeleitet werden.
+          <br />Wenn du länger hier bleibst, hat der Link zur Account-Löschung
+          nicht funktioniert. <br />Überprüfe nochmal dein E-Mail Postfach,
+          sowie den Spam Ordner oder versuch es nochmal.
+        </div>
+        {% endif %} {% if email_sent %}
+        <div style="display: flex; flex-flow: column; gap: 25px; width: 100%">
+          <div>
+            <h3>
+              Der Link zur Account-Löschung wurde gesendet an:
+              <br />{{email_sent}}
+            </h3>
+            Klicke ausschließlich auf unseren Link von
+            'noreply.limette05@gmail.com'
+            <br />Überprüfe auch deinen Spam-Ordner!
+          </div>
+          <div style="max-width: 80%; margin-inline: auto">
+            <form
+              style="
+                display: flex;
+                flex-flow: column;
+                gap: 10px;
+                width: 100%;
+                margin-inline: auto;
+                align-items: center;
+              "
+              method="POST"
+            >
+              <div>Oder gib den Code hier ein:</div>
+              <div
+                style="display: flex; flex-flow: row; gap: 10px; flex-grow: 1"
+              >
+                <input
+                  class="messenger-form-text"
+                  style="
+                    background-color: whitesmoke;
+                    color: black;
+                    width: 100%;
+                    text-align: center;
+                  "
+                  type="text"
+                  placeholder="XXXX XXXX XXXX"
+                  name="post_deletion_code"
+                />
+                <button style="font-size: 20px" type="submit" class="lite-btn">
+                  Account löschen
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <footer class="footer_bar"></footer>
+  <script src="/static/html addons/script.js"></script>
+</html>

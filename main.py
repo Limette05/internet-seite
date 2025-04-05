@@ -76,10 +76,11 @@ class User(db.Model, UserMixin):
     created_at = db.Column(db.DateTime(), default=datetime.now)
     verified = db.Column(db.Integer, nullable=False)
 
-class NewPassword(db.Model):
+class ChangeUser(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(200), nullable=False, unique=True)
-    code = db.Column(db.String, nullable=False)
+    password_code = db.Column(db.String, nullable=True)
+    deletetion_code = db.Column(db.String, nullable=True)
 
 class RegisterForm(FlaskForm):
     email = EmailField(validators=[InputRequired()], render_kw={"placeholder":"E-Mail"})
@@ -238,10 +239,61 @@ def team_chat():
     username = current_user.username
     return render_template("profile.html", email=email, username=username)
 
+@app.route("/delete_acc", methods=["GET","POST"])
+def delete_acc():
+    """after click on 'delete profile' in /profile
+    you are sent here. If deletetion_code doesn't exist it's sent."""
+    if not current_user.is_authenticated:
+        return redirect("/login")
+    if current_user.verified != 1:
+        return redirect("/verify")
+    error = ""
+    email_sent = False
+    data = ChangeUser.query.filter_by(email=current_user.email).first()
+    user = User.query.filter_by(email=current_user.email).first()
+    if not data:
+        data = ChangeUser(email=user.email, password_code="", deletion_code="")
+        db.session.add(data)
+        db.session.commit()
+    if data.deletion_code:
+        """ask for verification"""
+        if request.method == "POST":
+            code = request.form.get('post_deletion_code', False)
+            if data.deletetion_code == str(code):
+                conversations = Conversation.query.filter_by(owner=user.id).all()
+                for conv in conversations:
+                    messages = Message.query.filter_by(conversation=conv.id).all()
+                
+                db.session.delete(user)
+                db.session.delete(conversations)
+                db.session.delete(messages)
+                db.session.commit()
+            else:
+                error = "Code falsch eingegeben!"
+    else:
+        email_sent = data.email
+        send_delete_acc(data)
+        
+    return render_template("delete_acc.html", error=error, email_sent=email_sent)
+
+def send_delete_acc(data):
+    code = "".join(random.choice(string.ascii_uppercase+string.digits) for _ in range(12))
+    data.deletion_code = code
+    db.session.commit()
+    link = f"http://{host}:5000/delete_acc?code={code}"
+    msg = mail_msg("Account löschen", sender="noreply.limette05@gmail.com",
+                   recipients=[data.email])
+    msg.body = f"Möchten Sie Ihren Account wirklich löschen?\n\nAlle Daten werden unwiderruflich gelöscht!\n\n"
+    "Über diesen Link können Sie Ihren Account löschen:\n{link}\n\n\n"
+    "Das waren Sie nicht?\n"
+    "Dann ignorieren Sie diese Nachricht einfach."
+    mail.send(msg)
+    return("E-Mail wurde gesendet! Überprüfe dein Postfach.")
+
 
 def send_password_reset(data):
     code = "".join(random.choice(string.ascii_uppercase+string.digits) for _ in range(24))
-    data.code = code
+    data.password_code = code
     db.session.commit()
     link = f"http://{host}:5000/new_password?code={code}"
     msg = mail_msg("Passwort zurücksetzen", sender="noreply.limette05@gmail.com",
@@ -271,7 +323,7 @@ def new_password():
             pass
         else:
             return redirect("/")
-    code_verified = NewPassword.query.filter_by(code=get_code).first()
+    code_verified = ChangeUser.query.filter_by(password_code=get_code).first()
     if code_verified or current_user.is_authenticated:
         set_new_password = True
         if current_user.is_authenticated:
@@ -394,7 +446,7 @@ def forgot_password():
         get_email = request.form.get("reset-email", False)
         user = User.query.filter_by(email=get_email).first()
         if user:
-            data = NewPassword(email=get_email, code="")
+            data = ChangeUser(email=get_email, password_code="", deletion_code="")
             db.session.add(data)
             db.session.commit()
             send_password_reset(data)
