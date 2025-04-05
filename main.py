@@ -262,11 +262,11 @@ def delete_acc():
             if data.deletion_code == str(code):
                 conversations = Conversation.query.filter_by(owner=user.id).all()
                 for conv in conversations:
+                    db.session.delete(conv)
                     messages = Message.query.filter_by(conversation=conv.id).all()
-                
+                    for msg in messages:
+                        db.session.delete(msg)
                 db.session.delete(user)
-                db.session.delete(conversations)
-                db.session.delete(messages)
                 db.session.commit()
                 logout_user()
                 return redirect("/login")
