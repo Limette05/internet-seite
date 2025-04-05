@@ -80,7 +80,7 @@ class ChangeUser(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(200), nullable=False, unique=True)
     password_code = db.Column(db.String, nullable=True)
-    deletetion_code = db.Column(db.String, nullable=True)
+    deletion_code = db.Column(db.String, nullable=True)
 
 class RegisterForm(FlaskForm):
     email = EmailField(validators=[InputRequired()], render_kw={"placeholder":"E-Mail"})
