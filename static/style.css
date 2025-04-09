@@ -813,6 +813,15 @@ td {
   flex-flow: row;
   gap: 10px;
 }
+
+.label-box textarea {
+  flex-grow: 1;
+}
+
+.label-box input {
+  flex-grow: 1;
+}
+
 .content-box {
   word-wrap: break-word;
   overflow: hidden;
@@ -872,8 +881,73 @@ td {
   padding: 1em;
 }
 
+.werbung-image-mobile {
+  display: none;
+}
+
+.werbung-image {
+  display: block;
+}
+
+.werbung-text {
+  display: flex;
+  flex-flow: column;
+  gap: 15px;
+}
+
+.werbung-titel {
+  display: flex;
+  flex-flow: row;
+  gap: 15px;
+  font-size: 22px;
+  color: white;
+  font-weight: bold;
+  line-break: auto;
+  flex-wrap: wrap;
+}
+
+.werbung-description {
+  font-size: 18px;
+  color: whitesmoke;
+  line-break: auto;
+}
+
+.werbung-box {
+  scroll-snap-align: center;
+  display: flex;
+  flex-flow: row;
+  min-width: calc(100% - 22px);
+  padding: 10px 10px;
+  border-radius: 10px;
+  gap: 20px;
+  border: 1px solid crimson;
+  word-break: break-word;
+}
+
+.werbung-left {
+  min-width: 25%;
+  max-width: 25%;
+}
+
 /* Media Query für kleinere Bildschirme */
 @media (max-width: 1000px) {
+  .werbung-left {
+    min-width: 100%;
+    max-width: 100%;
+  }
+
+  .werbung-titel {
+    font-size: 19px;
+  }
+
+  .werbung-description {
+    font-size: 16px;
+  }
+
+  .werbung-box {
+    flex-wrap: wrap;
+  }
+
   .label-box {
     flex-flow: column;
   }

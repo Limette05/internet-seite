@@ -98,6 +98,52 @@
     <h1 class="headline">
       Willkommen in ihrem neuen <br /><span class="crimson">Badezimmer</span>
     </h1>
+    {% if werbung %}
+    <div class="main-object werbung-container">
+      <button id="slideLeft-werbung" class="arrow left" type="button" style="text-decoration: none;" href="">&#10094;</button>
+
+		  <div id="werbung-wrapper" class="kontakt-wrapper" style="margin-top: 50px; padding-inline: 10px;">
+        {% for ad in werbung %}
+          <div class="werbung-box">
+            <div class="werbung-left">
+              <img class="werbung-image" src="{{ ad.image }}" alt="" style="width: 100%;">
+              <div class="werbung-info" style="display: flex; flex-flow: column; align-items: center;">
+                <div class="werbung-datum" style="display: flex; flex-flow: row; gap: 20px; font-size: 18px; color: white;">
+                  {% if ad.start %}
+                  <div class="werbung-start">
+                    Vom {{ ad.start }}
+                  </div>
+                  {% endif %}
+                  {% if ad.end %}
+                  <div class="werbung-stop">
+                    Bis {{ ad.end }}
+                  </div>
+                  {% endif %}
+                </div>
+                {% if team_status > 0 %}
+                <div class="werbung-creator" style="color: white;">
+                  Erstellt von: {{ ad.creator }}
+                </div>
+                {% endif %}
+              </div>
+            </div>
+            <div class="werbung-text">
+              <div class="werbung-titel">
+                <div class="werbung-titel">{{ ad.title }}</div>
+              </div>
+              <div class="werbung-description">
+                {% for line in ad.description %}
+                {{ line }}<br />
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+		  </div>
+
+		  <button id="slideRight-werbung" class="arrow right" type="button" style="text-decoration: none;" href="">&#10095;</button>
+    </div>
+    {% endif %}
     <div class="main-content main-headline1" style="margin-bottom: -30px;">
       Hier finden Sie uns bei Google Maps:
     </div>

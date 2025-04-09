@@ -128,3 +128,38 @@ function updateChatbox(messages) {
   // Scrollt die Chatbox zum neuesten Eintrag
   chatbox.scrollTop = chatbox.scrollHeight;
 }
+
+function searchAdvertisements() {
+  var input, filter, ul, li, a, i, txtValue;
+  input = document.getElementById("searchAdvertisements");
+  filter = input.value.toUpperCase();
+  ul = document.getElementById("werbungList");
+  li = ul.getElementsByTagName("div");
+  for (i = 0; i < li.length; i++) {
+    a = li[i].getElementsByTagName("button")[0];
+    txtValue = a.textContent || a.innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      li[i].style.display = "flex";
+    } else {
+      li[i].style.display = "none";
+    }
+  }
+}
+
+function redirectToAd(adID) {
+  window.location.href = `/werbung?werbung_ID=${adID}`;
+}
+
+const input = document.getElementById("werbung-image");
+const preview = document.getElementById("werbung-image-preview");
+
+input.addEventListener("change", function () {
+  const file = this.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      preview.src = e.target.result; // Vorschau anzeigen
+    };
+    reader.readAsDataURL(file); // Lokale Datei als Base64 laden
+  }
+});

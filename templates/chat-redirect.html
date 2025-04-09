@@ -25,11 +25,11 @@
     <div class="page-container">
       <div class="page-nav">
         <button onclick="loadSection('profile')">Profil</button>
-        <button onclick="location.href = '/chat-redirect'">Chats</button>
+        <button onclick="location.href = '/chat-redirect'">Chat</button>
         {% if team_status > 0 %}
+        <button onclick="location.href = '/werbung'">Werbung/Angebote</button>
         <button onclick="loadSection('statistics')">Statistiken</button>
         <button onclick="loadSection('enquiries')">Anfragen</button>
-        <button onclick="loadSection('werbung')">Werbung/Angebote</button>
         {% endif %}
       </div>
       <div class="dashboard-display" id="dashboard-display">

@@ -61,6 +61,16 @@ buttonLeft.onclick = function () {
   document.getElementById("kontakt-wrapper").scrollLeft -= 450;
 };
 
+const werbung_buttonRight = document.getElementById("slideRight-werbung");
+const werbung_buttonLeft = document.getElementById("slideLeft-werbung");
+
+werbung_buttonRight.onclick = function () {
+  document.getElementById("werbung-wrapper").scrollLeft += 1000;
+};
+werbung_buttonLeft.onclick = function () {
+  document.getElementById("werbung-wrapper").scrollLeft -= 1000;
+};
+
 function openForm() {
   const chatFenster = document.querySelector(".messenger-container");
   chatFenster.classList.toggle("open");

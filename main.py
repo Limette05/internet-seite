@@ -13,7 +13,9 @@ from wtforms.validators import InputRequired, Length, ValidationError
 from sqlalchemy import Integer, String, select
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 import os
+from werkzeug.utils import secure_filename
 import string
+import cv2
 
 class Base(DeclarativeBase):
   pass
@@ -82,9 +84,20 @@ class ChangeUser(db.Model):
     password_code = db.Column(db.String, nullable=True)
     deletion_code = db.Column(db.String, nullable=True)
 
+class Werbung(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    active = db.Column(db.Integer, nullable=False)
+    creator = db.Column(db.String, nullable=False) # username des Creators
+    editor = db.Column(db.String, nullable=False) # username des Editors
+    image = db.Column(db.String, nullable=False) # Pfad zum Bild
+    title = db.Column(db.String(64), nullable=False, unique=True)
+    description = db.Column(db.JSON, nullable=False)
+    start = db.Column(db.String(), nullable=True)
+    end = db.Column(db.String(), nullable=True)
+
 class RegisterForm(FlaskForm):
     email = EmailField(validators=[InputRequired()], render_kw={"placeholder":"E-Mail"})
-    username = StringField(validators=[InputRequired(), Length(min=4, max=64)], render_kw={"placeholder": "Nutzername"})
+    username = StringField(validators=[InputRequired(), Length(min=4, max=32)], render_kw={"placeholder": "Nutzername"})
     password = PasswordField(validators=[InputRequired(), Length(min=4, max=64)], render_kw={"placeholder": "Passwort"})
     submit = SubmitField("Registrieren")
 
@@ -109,12 +122,101 @@ class LoginForm(FlaskForm):
 with app.app_context():
     db.create_all()
 
+@app.route("/werbung", methods=['GET','POST'])
+def werbung():
+    if not current_user.is_authenticated:
+        return redirect("/login")
+    if current_user.verified != 1:
+        return redirect("/verify")
+    user = User.query.filter_by(id=current_user.id).first()
+    if user.team_status == 0:
+        return redirect("/")
+    msg = ""
+    editor = ""
+    werbungen = Werbung.query.all()
+    returned_werbung = None
+    current_werbung = None
+    edit = request.args.get("werbung_ID")
+    current_werbung_start = None
+    current_werbung_end = None
+    if edit:
+        current_werbung = Werbung.query.filter_by(id=edit).first()
+        if current_werbung.start:
+            current_werbung_start = datetime.strptime(current_werbung.start, '%d.%m.%Y').strftime('%Y-%m-%d')
+        if current_werbung.end:
+            current_werbung_end = datetime.strptime(current_werbung.end, '%d.%m.%Y').strftime('%Y-%m-%d')
+    if request.method == "POST":
+        title = request.form.get("werbung-title", False)
+        description = request.form.get("werbung-description", False)
+        description = description.split("\r\n")
+        start = request.form.get("werbung-start", False)
+        end = request.form.get("werbung-end", False)
+        if start:
+            start = datetime.strptime(start, '%Y-%m-%d').date()
+            start = start.strftime('%d.%m.%Y')
+        if end:
+            end = datetime.strptime(end, '%Y-%m-%d').date()
+            end = end.strftime('%d.%m.%Y')
+        image = ""
+        file = request.files['werbung-image']
+        if file:
+            file.save(f"static/html addons/werbung-img/{file.filename}")
+            image = f"static/html addons/werbung-img/{file.filename}"
+            check_im_size = cv2.imread(image)
+            h, w, _ = check_im_size.shape
+            if h != 500 or w != 500:
+                os.remove(image)
+                returned_werbung = {"title":title,"description":description,"start":start,"end":end,"image":None}
+                return render_template("werbung.html", msg="Bildgröße muss 500x500 Pixeln entsprechen!", team_status=user.team_status, werbungen=werbungen, current_werbung=current_werbung, 
+                                current_werbung_start=current_werbung_start, current_werbung_end=current_werbung_end, returned_werbung=returned_werbung)
+        #if start before datetime.now:
+            #active = 1
+        check_titles = Werbung.query.filter_by(title=title).first()
+        if check_titles:
+            if not current_werbung:
+                returned_werbung = {"title":title,"description":description,"start":start,"end":end,"image":image}
+                return render_template("werbung.html", msg="Titel existiert bereits! Bearbeiten? In Liste auswählen!", team_status=user.team_status, werbungen=werbungen, current_werbung=current_werbung, 
+                           current_werbung_start=current_werbung_start, current_werbung_end=current_werbung_end, returned_werbung=returned_werbung)
+        if current_werbung:
+                active = request.form.get("werbung-active")
+                delete = request.form.get("werbung-löschen")
+                if active is not None:
+                    if current_werbung.active:
+                        current_werbung.active = 0
+                        msg = f"Aktiviert: {current_werbung.title}"
+                    else:
+                        current_werbung.active = 1
+                        msg = f"Deaktiviert: {current_werbung.title}"
+                elif delete is not None:
+                    msg = f"Unwiderruflich gelöscht: {current_werbung.title}"
+                    db.session.delete(current_werbung)
+                else:
+                    if image:
+                        current_werbung.image = image
+                    current_werbung.title = title
+                    current_werbung.description = description
+                    current_werbung.editor = current_user.username
+                    current_werbung.start = start
+                    current_werbung.end = end
+                    msg = f"Bearbeitet: {title}"
+        else:
+            msg = f"Erstellt: {title}"
+            new_werbung = Werbung(title=title, description=description, image=image, active=1, creator = current_user.username, editor=editor, start=start, end=end)
+            db.session.add(new_werbung)
+        db.session.commit()
+    return render_template("werbung.html", msg=msg, team_status=user.team_status, werbungen=werbungen,current_werbung=current_werbung, 
+                           current_werbung_start=current_werbung_start, current_werbung_end=current_werbung_end, returned_werbung=returned_werbung)
+
+
 @app.route("/", methods=['GET','POST'])
 def index():
     login_state = False
+    team_status = 0
     if current_user.is_authenticated:
         login_state = True
-    return render_template("index.html", login_state=login_state)
+        team_status = current_user.team_status
+    werbung = Werbung.query.filter_by(active=1).all()
+    return render_template("index.html", login_state=login_state, werbung=werbung, team_status=team_status)
 
 @socketio.on("connect")
 def connect(auth):
@@ -257,6 +359,7 @@ def delete_acc():
         db.session.commit()
     if data.deletion_code:
         """ask for verification"""
+        email_sent = data.email
         if request.method == "POST":
             code = request.form.get('post_deletion_code', False)
             if data.deletion_code == str(code):
