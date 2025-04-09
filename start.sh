@@ -28,7 +28,7 @@ source $VENV_DIR/bin/activate
 
 # Installieren der Abhängigkeiten
 pip3.11 install --upgrade pip
-pip3.11 install flask flask_sqlalchemy flask-mail flask_login flask_wtf flask_bcrypt flask_socketio wtforms
+pip3.11 install flask flask_sqlalchemy flask-mail flask_login flask_wtf flask_bcrypt flask_socketio wtforms opencv-python
 
 # Überprüfen, ob die Screen-Session bereits läuft
 if screen -list | grep -q "$SCREEN_NAME"; then
