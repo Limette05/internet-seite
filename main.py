@@ -12,7 +12,7 @@ from flask_bcrypt import Bcrypt
 from flask_socketio import SocketIO, send, emit, join_room, leave_room, send, SocketIO
 from wtforms import StringField, PasswordField, SubmitField, EmailField
 from wtforms.validators import InputRequired, Length, ValidationError
-from sqlalchemy import Integer, String, select
+from sqlalchemy import Integer, String
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 class Base(DeclarativeBase):
