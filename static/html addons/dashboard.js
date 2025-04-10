@@ -163,3 +163,24 @@ input.addEventListener("change", function () {
     reader.readAsDataURL(file); // Lokale Datei als Base64 laden
   }
 });
+
+function searchUser() {
+  var input, filter, ul, li, a, i, txtValue;
+  input = document.getElementById("searchUser");
+  filter = input.value.toUpperCase();
+  ul = document.getElementById("userList");
+  li = ul.getElementsByTagName("div");
+  for (i = 0; i < li.length; i++) {
+    a = li[i].getElementsByTagName("button")[0];
+    txtValue = a.textContent || a.innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      li[i].style.display = "flex";
+    } else {
+      li[i].style.display = "none";
+    }
+  }
+}
+
+function redirectToUser(userID) {
+  window.location.href = `/admin?userID=${userID}`;
+}

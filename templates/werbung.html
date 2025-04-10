@@ -26,6 +26,9 @@
         <button onclick="loadSection('statistics')">Statistiken</button>
         <button onclick="loadSection('enquiries')">Anfragen</button>
         {% endif %}
+        {% if team_status == 2 %}
+        <button onclick="location.href = '/admin'">Admin-Panel</button>
+        {% endif %}
       </div>
       <div class="dashboard-display" id="dashboard-display">
         <div
@@ -54,6 +57,7 @@
                   maxlength="64"
                   required
                   value="{{ current_werbung.title }}"
+                  style="font-size: 18px;"
                 />
                 {% elif returned_werbung %}
                 <input
@@ -63,6 +67,7 @@
                   maxlength="64"
                   required
                   value="{{ returned_werbung['title'] }}"
+                  style="font-size: 18px;"
                 />
                 {% else %}
                 <input
@@ -71,6 +76,7 @@
                   placeholder="Titel (max 64 Zeichen)"
                   maxlength="64"
                   required
+                  style="font-size: 18px;"
                 />
                 {% endif %}
               </div>
@@ -84,7 +90,7 @@
                   required
                   id=""
                   rows="8"
-                  style="resize: none"
+                  style="resize: none; font-size: 18px;"
                 >
 {% for line in current_werbung.description %}{{ line }}
 {% endfor %}</textarea
@@ -97,7 +103,7 @@
                   required
                   id=""
                   rows="8"
-                  style="resize: none"
+                  style="resize: none; font-size: 18px;"
                 >
 {% for line in returned_werbung['description'] %}{{ line }}
 {% endfor %}</textarea
@@ -110,7 +116,7 @@
                   required
                   id=""
                   rows="8"
-                  style="resize: none"
+                  style="resize: none; font-size: 18px;"
                 ></textarea>
                 {% endif %}
               </div>
@@ -121,12 +127,14 @@
                   type="file"
                   name="werbung-image"
                   accept="image/png, image/jpeg"
+                  style="font-size: 18px;"
                 />
                 {% else %}
                 <input
                   type="file"
                   name="werbung-image"
                   accept="image/png, image/jpeg"
+                  style="font-size: 18px;"
                   required
                 />
                 {% endif %}
@@ -165,28 +173,28 @@
                   <div>Start:</div>
                   {% if current_werbung %} {% if current_werbung.start %}
                   <input
-                    style="flex-grow: 0"
+                    style="flex-grow: 0; font-size: 18px;"
                     type="date"
                     name="werbung-start"
                     value="{{ current_werbung_start }}"
                   />
                   {% else %}
                   <input
-                    style="flex-grow: 0"
+                    style="flex-grow: 0; font-size: 18px;"
                     type="date"
                     name="werbung-start"
                   />
                   {% endif %} {% elif returned_werbung %} {% if
                   returned_werbung['start'] %}
                   <input
-                    style="flex-grow: 0"
+                    style="flex-grow: 0; font-size: 18px;"
                     type="date"
                     name="werbung-start"
                     value="{{ returned_werbung['start'] }}"
                   />
                   {% endif %} {% else %}
                   <input
-                    style="flex-grow: 0"
+                    style="flex-grow: 0; font-size: 18px;"
                     type="date"
                     name="werbung-start"
                   />
@@ -204,23 +212,23 @@
                   <div>Ende:</div>
                   {% if current_werbung %} {% if current_werbung.end %}
                   <input
-                    style="flex-grow: 0"
+                    style="flex-grow: 0; font-size: 18px;"
                     type="date"
                     name="werbung-end"
                     value="{{ current_werbung_end }}"
                   />
                   {% else %}
-                  <input style="flex-grow: 0" type="date" name="werbung-end" />
+                  <input style="flex-grow: 0; font-size: 18px;" type="date" name="werbung-end" />
                   {% endif %} {% elif returned_werbung %} {% if
                   returned_werbung['end'] %}
                   <input
-                    style="flex-grow: 0"
+                    style="flex-grow: 0; font-size: 18px;"
                     type="date"
                     name="werbung-end"
                     value="{{ returned_werbung['end'] }}"
                   />
                   {% endif %} {% else %}
-                  <input style="flex-grow: 0" type="date" name="werbung-end" />
+                  <input style="flex-grow: 0; font-size: 18px;" type="date" name="werbung-end" />
                   {% endif %}
                 </div>
               </div>

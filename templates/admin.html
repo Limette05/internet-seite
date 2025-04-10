@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>F. Walter Roth KG</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+
+  <body>
+    <div class="menu_bar"></div>
+    <div class="page-container">
+      <div class="page-nav">
+        <button onclick="loadSection('profile')">Profil</button>
+        <button onclick="location.href = '/chat-redirect'">Chat</button>
+        {% if team_status > 0 %}
+        <button onclick="location.href = '/werbung'">Werbung/Angebote</button>
+        <button onclick="loadSection('statistics')">Statistiken</button>
+        <button onclick="loadSection('enquiries')">Anfragen</button>
+        {% endif %}
+        {% if team_status == 2 %}
+        <button onclick="location.href = '/admin'">Admin-Panel</button>
+        {% endif %}
+      </div>
+      <div class="dashboard-display" id="dashboard-display">
+        <div
+          class="profil-container"
+          style="display: flex; flex-grow: 1; flex-flow: row"
+        >
+          <form action="" method="POST">
+            {% if editUser %}
+            <div class="user-info">
+              {% if msg %}
+              <div style="font-size: 20px; color: crimson;">
+              {% for line in msg %}
+              {{ line }} <br />
+              {% endfor %}
+              </div>
+              {% endif %}
+              <div class="label-box">
+                <div class="content-box">Nutzername:</div>
+                <div>{{ editUser.username }}</div>
+              </div>
+              <div class="label-box">
+                <div class="content-box">E-Mail:</div>
+                <div>{{ editUser.email }}</div>
+              </div>
+              <div class="label-box">
+                <div class="content-box">Team-Status:</div>
+                {% if editUser.team_status == 2 %}
+                <div style="font-size: 18px;">Admin</div>
+                {% else %}
+                <select name="change-team-status" id="change-team-status">
+                  {% if editUser.team_status == 0 %}
+                  <option value="0">Besucher</option>
+                  <option value="1">Teammitglied</option>
+                  {% elif editUser.team_status == 1 %}
+                  <option value="1">Teammitglied</option>
+                  <option value="0">Besucher</option>
+                  {% endif %}
+                </select>
+                {% endif %}
+              </div>
+            </div>
+            <button class="logout-btn" name="edit-user" type="submit">
+              Ändern
+            </button>
+          </form>
+        </div>
+        <div class="chatbox-wrapper" style="border: none" id="chatbox-btns">
+          <div style="font-size: 28px">Liste aller Benutzer:</div>
+          <input
+            type="text"
+            id="searchUser"
+            onkeyup="searchUser()"
+            placeholder="Suche nach Nutzernamen..."
+            title="Schreib hier den Nutzernamen"
+            style="
+              font-size: 20px;
+              padding: 10px 10px;
+              color: white;
+              border: none;
+              border-radius: 10px;
+              background-color: rgb(98, 50, 50);
+              box-shadow: inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.1),
+                /* shadow ring 👇 */ 0 0 0 1px hsla(0, 0%, 0%, 0.05),
+                /* multiple soft shadows 👇 */ 0 0.3px 0.4px
+                  hsla(0, 0%, 0%, 0.02),
+                0 0.9px 1.5px hsla(0, 0%, 0%, 0.045),
+                0 3.5px 6px hsla(0, 0%, 0%, 0.09);
+            "
+          />
+          <div
+            class="conversations-legende"
+            style="
+              font-size: 13px;
+              color: rgba(255, 255, 255, 0.75);
+              display: flex;
+              gap: 25px;
+            "
+          >
+            <div style="align-content: center; display: flex; gap: 5px">
+              <i class="bx bx-envelope" style="font-size: 20px"></i>
+              <div>Platzhalter für die eventuelle Legende.</div>
+            </div>
+          </div>
+          <div
+            id="userList"
+            class="conversations-list"
+            style="
+              font-size: 20px;
+              overflow-y: scroll;
+              max-width: 100%;
+              display: flex;
+              flex-flow: column;
+              align-items: center;
+            "
+          >
+            {% for user in userList %}
+            <div
+              class="conversation-listing"
+              style="width: 100%; display: flex; flex-flow: column; gap: 5px"
+            >
+              <div class="conv-select" style="display: flex">
+                <div class="conversation-name">
+                  <button
+                    class="conv-title"
+                    onclick="redirectToUser('{{ user.id }}')"
+                  >
+                    {{ user.username }}
+                  </button>
+                </div>
+                <div
+                  id="{{ user.id }}"
+                  class="conversation-state-btn"
+                  style="padding: 5px 5px"
+                >
+                  {% if user.team_status == 0 %}
+                  <i class="bx bxs-user" style="font-size: 30px"></i>
+                  {% elif user.team_status == 1 %}
+                  <div style="font-size: 30px">T</div>
+                  {% else %}
+                  <div style="font-size: 30px">A</div>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="conversation-info" style="font-size: 16px">
+                Erstellt am: {{ user.created_at.strftime('%d.%m.%Y - %H:%M Uhr') }}
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <footer class="footer_bar"></footer>
+</html>
+<script src="/static/html addons/dashboard.js"></script>

@@ -1,5 +1,8 @@
 from datetime import datetime
-import time
+import random
+import os
+import string
+import cv2
 from flask import Flask, render_template, request, session, jsonify, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user, login_remembered
@@ -7,15 +10,10 @@ from flask_mail import Mail, Message as mail_msg
 from flask_wtf import FlaskForm
 from flask_bcrypt import Bcrypt
 from flask_socketio import SocketIO, send, emit, join_room, leave_room, send, SocketIO
-import random
 from wtforms import StringField, PasswordField, SubmitField, EmailField
 from wtforms.validators import InputRequired, Length, ValidationError
 from sqlalchemy import Integer, String, select
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-import os
-from werkzeug.utils import secure_filename
-import string
-import cv2
 
 class Base(DeclarativeBase):
   pass
@@ -39,7 +37,6 @@ SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
 db.init_app(app)
 
-team_list = ["Team1","Team2"]
 admin_list = ["Limette","Admin"]
 
 
@@ -122,6 +119,32 @@ class LoginForm(FlaskForm):
 with app.app_context():
     db.create_all()
 
+@app.route("/admin", methods=["GET","POST"])
+def admin():
+    if not current_user.is_authenticated:
+        return redirect("/login")
+    if current_user.verified != 1:
+        return redirect("/verify")
+    user = User.query.filter_by(id=current_user.id).first()
+    if user.team_status != 2:
+        return redirect("/")
+    msg = ""
+    userList = User.query.filter_by(verified=1).all()
+    userID = request.args.get("userID")
+    editUser = None
+    if userID:
+        editUser = User.query.filter_by(id=userID).first()
+    if request.method == "POST":
+        edit_user = request.form.get("edit-user", False)
+        edit_team_status = request.form.get("change-team-status", False)
+        if edit_user:
+            msg = ["Geändert: "]
+            if edit_team_status:
+                editUser.team_status = int(edit_team_status)
+                msg.append(f"Team-Status: {edit_team_status}")
+    return render_template("admin.html", msg=msg, team_status=user.team_status, 
+                           userList=userList, editUser=editUser)
+
 @app.route("/werbung", methods=['GET','POST'])
 def werbung():
     if not current_user.is_authenticated:
@@ -183,10 +206,10 @@ def werbung():
                 if active is not None:
                     if current_werbung.active:
                         current_werbung.active = 0
-                        msg = f"Aktiviert: {current_werbung.title}"
+                        msg = f"Deaktiviert: {current_werbung.title}"
                     else:
                         current_werbung.active = 1
-                        msg = f"Deaktiviert: {current_werbung.title}"
+                        msg = f"Aktiviert: {current_werbung.title}"
                 elif delete is not None:
                     msg = f"Unwiderruflich gelöscht: {current_werbung.title}"
                     db.session.delete(current_werbung)
@@ -505,9 +528,7 @@ def register():
     form = RegisterForm()
     username = form.username.data
     team_status = 0
-    if username in team_list:  # edit your team_list
-        team_status = 1
-    elif username in admin_list:  # edit your admin_list
+    if username in admin_list:  # edit your admin_list
         team_status = 2
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data)

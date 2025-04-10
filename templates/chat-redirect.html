@@ -31,6 +31,9 @@
         <button onclick="loadSection('statistics')">Statistiken</button>
         <button onclick="loadSection('enquiries')">Anfragen</button>
         {% endif %}
+        {% if team_status == 2 %}
+        <button onclick="location.href = '/admin'">Admin-Panel</button>
+        {% endif %}
       </div>
       <div class="dashboard-display" id="dashboard-display">
         <div class="chatbox-wrapper" style="min-width: 50%" id="chatbox">
